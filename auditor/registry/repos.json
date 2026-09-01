@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "last_discovery": "2026-08-05T02:07:37Z",
+    "last_discovery": "2026-08-31T06:11:05Z",
     "total_audited": 12,
     "total_contributed": 6,
-    "total_discovered": 272
+    "total_discovered": 278
   },
   "repos": {
     "0xNyk/council-of-high-intelligence": {
@@ -20,13 +20,13 @@
       "prs": [
         {
           "number": 49,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-15T15:51:35Z",
+          "closedAt": "2026-08-15T15:51:35Z",
           "title": "fix: replace invalid agent color enum values with valid ones",
-          "updatedAt": "2026-07-06T15:29:17Z",
+          "updatedAt": "2026-08-15T15:51:35Z",
           "createdAt": "2026-07-06T15:29:17Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [
             "sha256:fbc0c17bd049dc79a6dec9cb6a14450d3ffe1b8a3255784b731f5a2f8a537553",
             "sha256:ee177e74c967845c515236734d9204ac84a2497335c6a1dbb68311d5737fe554",
@@ -59,13 +59,13 @@
         },
         {
           "number": 50,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-15T15:51:25Z",
+          "closedAt": "2026-08-15T15:51:26Z",
           "title": "fix: remove exploration-orthogonal from Aristotle's declared profiles",
-          "updatedAt": "2026-07-06T15:29:59Z",
+          "updatedAt": "2026-08-15T15:51:26Z",
           "createdAt": "2026-07-06T15:29:59Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [
             "sha256:0543c663f08e49ac9d06c391af122ef7def42d0f23d803a2b9e736db95b77e96"
           ],
@@ -76,13 +76,13 @@
         },
         {
           "number": 51,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-15T15:51:30Z",
+          "closedAt": "2026-08-15T15:51:30Z",
           "title": "fix: add sutskever to Machiavelli's polarity_pairs",
-          "updatedAt": "2026-07-06T15:30:38Z",
+          "updatedAt": "2026-08-15T15:51:31Z",
           "createdAt": "2026-07-06T15:30:38Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [
             "sha256:5392ac4a4198a2cab522ca99be364a93d1bb864de4f14855e5a70b8e318c2c46"
           ],
@@ -96,8 +96,10 @@
       "score": 71,
       "security": "REVIEW",
       "stars": 3333,
-      "status": "contributed",
-      "strategy": "batched"
+      "status": "complete",
+      "strategy": "batched",
+      "case_study_skipped": true,
+      "case_study_skip_reason": "thin narrative: score=71, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
     },
     "0xSteph/pentest-ai-agents": {
       "artifacts": 55,
@@ -1128,39 +1130,39 @@
       "prs": [
         {
           "number": 260,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-19T10:53:42Z",
           "title": "docs(security): add inspect-before-run note to curl-pipe-to-bash one-liners",
-          "updatedAt": "2026-04-22T06:54:09Z",
+          "updatedAt": "2026-08-19T10:53:42Z",
           "createdAt": "2026-04-22T06:54:09Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 261,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-19T10:53:54Z",
           "title": "fix(security): pin REPO_URL to tagged release instead of main branch",
-          "updatedAt": "2026-07-02T20:45:55Z",
+          "updatedAt": "2026-08-19T10:53:54Z",
           "createdAt": "2026-04-22T06:54:45Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 262,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-19T10:54:08Z",
           "title": "fix(security): add SHA-256 integrity verification for downloaded hook files",
-          "updatedAt": "2026-04-24T17:36:56Z",
+          "updatedAt": "2026-08-19T10:54:08Z",
           "createdAt": "2026-04-22T06:55:58Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -1170,7 +1172,7 @@
       "score": 92,
       "security": "CLEAR",
       "stars": 22505,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "single"
     },
     "K-Dense-AI/scientific-agent-skills": {
@@ -1448,7 +1450,7 @@
             "R02",
             "R02"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 9,
@@ -1495,7 +1497,7 @@
             "R02",
             "R02"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 10,
@@ -1512,7 +1514,7 @@
           "rule_ids": [
             "R27"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -2539,7 +2541,7 @@
           "rule_ids": [
             "SEC-unpinned-npm-install"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 2,
@@ -2558,7 +2560,7 @@
             "BUG-missing-frontmatter",
             "R01"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -3171,39 +3173,39 @@
       "prs": [
         {
           "number": 7,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-12T01:18:30Z",
           "title": "fix: correct skills/ros1 frontmatter name to match directory",
-          "updatedAt": "2026-07-07T09:42:29Z",
+          "updatedAt": "2026-08-12T01:18:30Z",
           "createdAt": "2026-07-07T09:42:29Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 8,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-12T01:18:39Z",
           "title": "fix: correct skills/ros2 frontmatter name to match directory",
-          "updatedAt": "2026-07-07T09:42:36Z",
+          "updatedAt": "2026-08-12T01:18:39Z",
           "createdAt": "2026-07-07T09:42:36Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 9,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T01:20:57Z",
+          "closedAt": "2026-08-12T01:20:57Z",
           "title": "fix: validate skill names before use in install.sh",
-          "updatedAt": "2026-07-07T09:42:44Z",
+          "updatedAt": "2026-08-12T01:20:58Z",
           "createdAt": "2026-07-07T09:42:44Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -3213,8 +3215,10 @@
       "score": 74,
       "security": "REVIEW",
       "stars": 308,
-      "status": "contributed",
-      "strategy": "single"
+      "status": "complete",
+      "strategy": "single",
+      "case_study_skipped": true,
+      "case_study_skip_reason": "thin narrative: score=74, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
     },
     "astral-sh/claude-code-plugins": {
       "artifacts": 4,
@@ -3580,7 +3584,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: correct agent name mismatch in enterprise-integrator-architect",
-          "updatedAt": "2026-04-21T06:42:27Z",
+          "updatedAt": "2026-08-12T12:40:16Z",
           "createdAt": "2026-04-21T06:42:27Z",
           "outcome": "open",
           "fingerprints": [],
@@ -3593,7 +3597,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: correct agent name mismatch in ceo-quality-controller-agent",
-          "updatedAt": "2026-04-21T06:42:51Z",
+          "updatedAt": "2026-08-12T12:40:18Z",
           "createdAt": "2026-04-21T06:42:51Z",
           "outcome": "open",
           "fingerprints": [],
@@ -3606,7 +3610,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: remove erroneous numeric prefix from problem-solver-specialist name",
-          "updatedAt": "2026-04-21T06:43:15Z",
+          "updatedAt": "2026-08-12T12:40:19Z",
           "createdAt": "2026-04-21T06:43:15Z",
           "outcome": "open",
           "fingerprints": [],
@@ -3615,26 +3619,26 @@
         },
         {
           "number": 196,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T12:10:04Z",
+          "closedAt": "2026-08-12T12:10:04Z",
           "title": "fix: add missing tools declarations to agent-sdk-verifier agents",
-          "updatedAt": "2026-04-21T06:43:49Z",
+          "updatedAt": "2026-08-12T12:10:05Z",
           "createdAt": "2026-04-21T06:43:49Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 197,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T12:10:09Z",
+          "closedAt": "2026-08-12T12:10:09Z",
           "title": "fix: validate $ARGUMENTS path before shell interpolation in optimize command",
-          "updatedAt": "2026-04-21T06:44:31Z",
+          "updatedAt": "2026-08-12T12:10:09Z",
           "createdAt": "2026-04-21T06:44:31Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -4057,7 +4061,7 @@
             "CC-terminology-drift",
             "R05"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -5458,7 +5462,7 @@
           "stale_90d_emitted": false
         }
       ],
-      "rule_adopted": true,
+      "rule_adopted": false,
       "score": 73,
       "security": "REVIEW",
       "stars": 1917,
@@ -5884,13 +5888,13 @@
       "prs": [
         {
           "number": 44,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-24T04:14:06Z",
           "title": "Fix broken data/research/ reference in orchestrator boot sequence",
-          "updatedAt": "2026-07-07T14:31:17Z",
+          "updatedAt": "2026-08-24T04:14:06Z",
           "createdAt": "2026-07-07T14:31:11Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [
             "sha256:4eb3a981c6adc87d90c5ffd706f0b40b00493b4b03055ace7719613c861a4732",
             "sha256:6faf829b7f52bcde4fa749a08b31616a57e47c1989801524f66efeb07a15dbab",
@@ -5905,13 +5909,13 @@
         },
         {
           "number": 45,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-24T04:14:03Z",
           "title": "Fix broken data/research/ reference in kr-writer agent + skill",
-          "updatedAt": "2026-07-07T14:32:31Z",
+          "updatedAt": "2026-08-24T04:14:03Z",
           "createdAt": "2026-07-07T14:32:27Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [
             "sha256:1001def0fbbd7dcda363cf792b658d94aa45c1addb0dfd24064b05b9ce4400d0",
             "sha256:aadd68df05c5e27ee4a3744478e110765cbe7d4a870b23a86b8dc1bdd7813c65",
@@ -5926,13 +5930,13 @@
         },
         {
           "number": 46,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-24T04:14:01Z",
           "title": "Declare Write tool on omd-final-qa and omd-designer-review agents",
-          "updatedAt": "2026-07-07T14:33:28Z",
+          "updatedAt": "2026-08-24T04:14:01Z",
           "createdAt": "2026-07-07T14:33:24Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:30e61f19802404df36c908133f99db6e6f4945f72a87caaa9bf5d2d0d372dc8e",
             "sha256:594a42b1e3fbc543739f9d26593d6bfc61fe814bcfb231037650a3e000513770",
@@ -5952,8 +5956,10 @@
       "score": 86,
       "security": "REVIEW",
       "stars": 303,
-      "status": "contributed",
-      "strategy": "progressive"
+      "status": "complete",
+      "strategy": "progressive",
+      "case_study_skipped": true,
+      "case_study_skip_reason": "thin narrative: score=86, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
     },
     "lackeyjb/playwright-skill": {
       "artifacts": null,
@@ -6292,7 +6298,7 @@
       "commit_sha_at_audit": "HEAD-at-2026-05-11",
       "exemplar_path": "auditor/exemplars/mattpocock-skills.md",
       "exemplar_published": true,
-      "issue_filed_reason": "mattpocock/skills does not accept PRs; 4 BUG-unregistered-skill findings filed as issue per repo policy",
+      "issue_filed_reason": "mattpocock/skills does not accept PRs; 4 BUG-missing-manifest-entry findings filed as issue per repo policy",
       "issue_filed_url": "https://github.com/mattpocock/skills/issues/164",
       "prs": [],
       "rule_adopted": false,
@@ -6508,7 +6514,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in performing-ssl-tls-security-assessment",
-          "updatedAt": "2026-04-26T12:14:24Z",
+          "updatedAt": "2026-08-20T16:09:41Z",
           "createdAt": "2026-04-21T00:37:24Z",
           "outcome": "open",
           "fingerprints": [],
@@ -6521,7 +6527,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in detecting-aws-cloudtrail-anomalies",
-          "updatedAt": "2026-04-26T12:14:26Z",
+          "updatedAt": "2026-08-20T16:09:42Z",
           "createdAt": "2026-04-21T00:38:50Z",
           "outcome": "open",
           "fingerprints": [],
@@ -6534,7 +6540,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in analyzing-office365-audit-logs-for-compromise",
-          "updatedAt": "2026-04-26T12:14:14Z",
+          "updatedAt": "2026-08-20T16:09:44Z",
           "createdAt": "2026-04-21T00:40:22Z",
           "outcome": "open",
           "fingerprints": [],
@@ -6547,7 +6553,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in performing-red-team-with-covenant",
-          "updatedAt": "2026-04-26T12:14:20Z",
+          "updatedAt": "2026-08-20T16:09:46Z",
           "createdAt": "2026-04-21T00:42:00Z",
           "outcome": "open",
           "fingerprints": [],
@@ -6943,13 +6949,13 @@
         },
         {
           "number": 282,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-12T10:00:26Z",
           "title": "fix: correct style and stack counts in plugin.json description",
-          "updatedAt": "2026-06-21T09:58:48Z",
+          "updatedAt": "2026-08-12T10:00:26Z",
           "createdAt": "2026-04-26T06:43:45Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:17f8f9ffd0c2fb5f87a5cecef9ab9eb82e38b60a22c8c3b480207c0aa7296c29",
             "sha256:4a9fcd31a0a0439adb95d3b1aa6222b9dea8af827655a872c97b57f3885e9a75"
@@ -7077,13 +7083,13 @@
       "prs": [
         {
           "number": 43,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-13T16:52:36Z",
           "title": "fix: add missing name field to all command frontmatter blocks",
-          "updatedAt": "2026-04-26T06:50:27Z",
+          "updatedAt": "2026-08-13T16:52:36Z",
           "createdAt": "2026-04-26T06:44:42Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:4af23bf072e36b2979143f3e52669e8e78542485954947a0c2d50dad17f59e6c",
             "sha256:2daf056c710efb21e6486e0048e363a2e85b616e1f8a57ad388d5fa548b954b2",
@@ -7106,13 +7112,13 @@
         },
         {
           "number": 47,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-13T16:52:45Z",
           "title": "fix: rewrite share.md as a proper command template with YAML frontmatter",
-          "updatedAt": "2026-04-26T06:52:01Z",
+          "updatedAt": "2026-08-13T16:52:45Z",
           "createdAt": "2026-04-26T06:52:01Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:6ffb6e306b52951802022a728d81dae5243bdd0b99934272c73601a8fbee95cd",
             "sha256:7050f13294bf0989b308e8350a9fb2426ba1e0b94818a320166e00827d7fa997"
@@ -7125,13 +7131,13 @@
         },
         {
           "number": 45,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-13T16:52:41Z",
           "title": "fix: harden install-pi.sh and share.sh against supply-chain and data-exposure risks",
-          "updatedAt": "2026-04-26T06:52:47Z",
+          "updatedAt": "2026-08-13T16:52:41Z",
           "createdAt": "2026-04-26T06:46:35Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:92b81b560bcdefebd5c7c00180ee5cfb34843731ce5033d6fddd8fc7b9979885",
             "sha256:6359292c71ed77518913d6a07aabe986e1400417c3c23baf0ec4dc10835175be",
@@ -7149,7 +7155,7 @@
       "score": 66,
       "security": "CLEAR",
       "stars": 7692,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "single"
     },
     "numman-ali/n-skills": {
@@ -7814,65 +7820,65 @@
       "prs": [
         {
           "number": 32,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-18T06:25:25Z",
           "title": "fix(agents): add Task to verify-agent tools array",
-          "updatedAt": "2026-04-20T12:36:12Z",
+          "updatedAt": "2026-08-18T06:25:25Z",
           "createdAt": "2026-04-20T12:36:12Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 33,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T05:47:15Z",
+          "closedAt": "2026-08-18T05:47:15Z",
           "title": "fix(commands): add missing YAML frontmatter to three commands",
-          "updatedAt": "2026-04-20T12:36:30Z",
+          "updatedAt": "2026-08-18T05:47:15Z",
           "createdAt": "2026-04-20T12:36:30Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 34,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T05:47:20Z",
+          "closedAt": "2026-08-18T05:47:20Z",
           "title": "fix(agents): add tools array to observer agent frontmatter",
-          "updatedAt": "2026-04-20T12:37:03Z",
+          "updatedAt": "2026-08-18T05:47:20Z",
           "createdAt": "2026-04-20T12:37:03Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 35,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-18T06:25:27Z",
           "title": "fix(scripts): pin md-to-docx Python dependencies to exact versions",
-          "updatedAt": "2026-04-20T12:37:35Z",
+          "updatedAt": "2026-08-18T06:25:27Z",
           "createdAt": "2026-04-20T12:37:35Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 36,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-18T06:25:29Z",
           "title": "fix(scripts): pin PyMuPDF to exact version in pdf-enhance",
-          "updatedAt": "2026-04-20T12:37:44Z",
+          "updatedAt": "2026-08-18T06:25:29Z",
           "createdAt": "2026-04-20T12:37:44Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -7882,8 +7888,10 @@
       "score": 82,
       "security": "REVIEW",
       "stars": 648,
-      "status": "contributed",
-      "strategy": "progressive"
+      "status": "complete",
+      "strategy": "progressive",
+      "case_study_skipped": true,
+      "case_study_skip_reason": "thin narrative: score=82, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
     },
     "santifer/career-ops": {
       "artifacts": 14,
@@ -8606,16 +8614,16 @@
         },
         {
           "number": 105,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-01T17:30:49Z",
           "title": "fix(security): pin production dependency versions to lock-file values",
-          "updatedAt": "2026-05-26T09:15:17Z",
+          "updatedAt": "2026-09-01T17:30:50Z",
           "createdAt": "2026-04-20T12:37:03Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -9772,7 +9780,7 @@
       "prs": []
     },
     "Vincentwei1021/video-shotcraft": {
-      "status": "contributed",
+      "status": "tracked",
       "score": 100,
       "strategy": "single",
       "security": "REVIEW",
@@ -9783,13 +9791,13 @@
       "prs": [
         {
           "number": 30,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-08-09T09:53:10Z",
           "title": "fix: escape media.url in gallery data-src attributes",
-          "updatedAt": "2026-08-07T12:19:47Z",
+          "updatedAt": "2026-08-09T09:53:10Z",
           "createdAt": "2026-08-07T12:19:47Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [
             "sha256:fe9bcce17b04db042b1843e383c797e9f8c507d99e5377e649272db1bbf664c5",
             "sha256:feb1039c429e3ace708ddb25e1cb7d9238d2c588b33843a9785be78a245d7a57"
@@ -9801,7 +9809,86 @@
           "stale_90d_emitted": false
         }
       ],
-      "rule_adopted": false
+      "rule_adopted": false,
+      "case_study_candidate": true
+    },
+    "elementalsouls/Claude-OSINT": {
+      "discovered": "2026-08-10T06:26:33Z",
+      "stars": 2257,
+      "artifacts": 10,
+      "description": "8 Claude skills · 100+ recon capabilities · 80 secret-regex patterns · 80+ dorks · 9 read-only credential validators · 27 attack-path templates · ~10,000 lines of structured tradecraft. Drop-in SKILL.md files that turn Claude into a god-mode external recon operator for authorized red-team and bug-bounty engagements.",
+      "status": "audited",
+      "score": 97,
+      "audit_issue": 827,
+      "prs": [],
+      "strategy": "single",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "7d1516291f24a48696a1db7f86ecb15c75249754",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/elementalsouls-Claude-OSINT.md"
+    },
+    "deepseek-ai/deepseek-harness": {
+      "artifacts": 28,
+      "commit_sha_at_audit": "47f943859bef60e4160492346772ded9b24f765a",
+      "description": "DeepSeek Harness: Everything is a Plugin.",
+      "discovered": "2026-08-14T00:00:00Z",
+      "discovery_strategy": "manual-request",
+      "prs": [],
+      "score": 97,
+      "security": "CLEAR",
+      "stars": 60382,
+      "status": "audited",
+      "strategy": "batched"
+    },
+    "ccch1mneyyy/dsh-TUI": {
+      "discovered": "2026-08-17T06:09:36Z",
+      "stars": 1667,
+      "artifacts": 7,
+      "description": "DSH 官方公众号收录的 TUI 补位插件：Claude Code 风，鲸鱼顶栏/实时状态/流式思考/双击 Esc 回滚/上下文进度+TPS。npm 一键装。  DSH official WeChat featured TUI plugin — Claude Code style: whale bar, live status, streaming thoughts, double-Esc rollback, context bar + TPS. npm one-click.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 904,
+      "prs": []
+    },
+    "microsoft/power-platform-skills": {
+      "discovered": "2026-08-17T06:09:36Z",
+      "stars": 710,
+      "artifacts": 127,
+      "description": "A plugin marketplace for Claude Code/GitHub Copilot that provides Power Platform development plugins, including reusable skills, agents, and commands for building and deploying solutions.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 905,
+      "prs": []
+    },
+    "ayghri/i-have-adhd": {
+      "discovered": "2026-08-24T06:12:16Z",
+      "stars": 23537,
+      "artifacts": 5,
+      "description": "A skill to stop your coding agent from burying the answer. ADHD-friendly output.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 967,
+      "prs": []
+    },
+    "danny-avila/LibreChat": {
+      "discovered": "2026-08-24T06:12:16Z",
+      "stars": 42381,
+      "artifacts": 5,
+      "description": "Enhanced ChatGPT Clone: Features Agents, MCP, Skills, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 968,
+      "prs": []
+    },
+    "TencentCloud/TencentDB-Agent-Memory": {
+      "discovered": "2026-08-31T06:11:05Z",
+      "stars": 25310,
+      "artifacts": 18,
+      "description": "TencentDB Agent Memory is a team-level memory hub for AI Agents — turning conversations, docs, and code into four reusable memory assets (Chat Memory, Skill, LLM-Wiki, Code-Graph) that are governed, shared, and equipped across agents and frameworks.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 1026,
+      "prs": []
     }
   }
 }

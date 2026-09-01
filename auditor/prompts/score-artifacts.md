@@ -244,18 +244,34 @@ Field rules:
     `allowed-tools` and grepped the artifact, finding zero call sites.
     Also `high`: missing required fields per `skills/nlpm/conventions/`
     where the schema is unambiguous (no `name:` on a SKILL.md).
-    Also `high`: **manifest-vs-disk diff** — when a plugin manifest
-    (`.claude-plugin/plugin.json` or similar) declares an array of
-    skills/agents/commands AND a disk file exists at a canonical
-    artifact path that's missing from that array, the gap is
-    deterministic: jq the array, find the files, diff. No judgment
-    required, reproduction takes 5 seconds. Mark as `high` and
-    populate `evidence` with the concrete diff (e.g., "plugin.json
-    skills array has 13 entries; disk has 17 SKILL.md files under
-    skills/; 4 misc/* directories missing from manifest"). The
-    2026-05-11 mattpocock/skills audit found 4 such bugs and the
-    scorer marked them all `medium` — under-confident on a class
-    of bug where the gap IS the evidence.
+    Also `high`: **manifest-vs-disk diff**, under one precondition.
+    When a plugin manifest (`.claude-plugin/plugin.json` or similar)
+    declares an array of skills/agents/commands AND a disk file exists
+    at a canonical artifact path missing from that array, the diff
+    itself is deterministic: jq the array, find the files, diff. The
+    diff is the observation. It is not yet the defect — a maintainer
+    is allowed to ship a subset and keep the rest in the tree.
+    What converts the observation into a bug is the **repo's own
+    written rule** that the manifest enumerates every artifact. Quote
+    that rule in `evidence` alongside the diff, e.g. "CLAUDE.md: every
+    skill in engineering/ or productivity/ must have an entry in
+    plugin.json; plugin.json skills array has 13 entries; disk has 17
+    SKILL.md files". With no such rule quoted, mark the finding `low`
+    and leave it in the audit data — an unexplained omission is
+    curation until the repo says otherwise.
+    When the rule exists and the manifest disagrees with it, the repo
+    contradicts itself and the maintainer chooses which side moves.
+    Write `suggested_fix` with both resolutions named — register the
+    artifacts, or narrow the rule to the buckets that ship — rather
+    than presuming the manifest is the side in error.
+    Precedent: the 2026-05-11 mattpocock/skills audit filed 4 such
+    findings, which the owner closed the same day with "Yep, this is
+    intentional". On 2026-07-01 he resolved the contradiction the
+    other way, demoting `misc/` to a non-promoted bucket and deleting
+    those 4 skills from the README rather than adding them to the
+    manifest. The contradiction was real; the proposed direction was
+    wrong, and naming one resolution as the fix is what made the
+    finding rejectable.
     Only `high` findings reach the contribute step; everything else
     stays in the audit data for our own learning.
   - `medium` — likely a bug but you cannot independently verify

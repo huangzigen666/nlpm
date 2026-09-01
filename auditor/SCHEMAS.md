@@ -179,6 +179,42 @@ Emitted by `auditor-classify.yml` when it consumes a `pr_comments_snapshot` and 
 
 `classifier_confidence` ∈ `{high, medium, low}`. Low-confidence events are logged but weighted less in aggregation.
 
+**A record on an accepted PR is not dissent.** When the registry gives the
+record's `pr` an `outcome` of `merged` or `applied_separately`, consumers MUST
+skip it when counting rejections. The classifier reads only the comment
+thread, so "Closing in favor of the consolidated structural fix in #840" and
+"Closing to keep the queue clean" both come back as dissent — while the track
+workflow has already recorded that the finding was accepted, and in the second
+case a later re-audit emitted `finding_verified: fixed_upstream_not_merged` on
+every one of those fingerprints. Counting these penalises a rule for a win,
+and credits and penalises the same fingerprint at once. Measured 2026-08-12:
+9 of 25 fingerprinted dissent records sat on accepted PRs, which alone
+classified `CC-stale-count` and `SEC-unpinned-semver` as disputed.
+
+`classifier_model` names what produced the classification. `haiku-4-5` is the
+`auditor-classify.yml` path; `manual-backfill` marks a record a human wrote by
+reading the thread, which carries the same weight and is exempt from the
+`comments_hash` re-classification cache.
+
+#### Issue-lane variant
+
+A record carries `issue` instead of `pr` when the findings reached the
+maintainer as a GitHub issue rather than a pull request — the path taken when
+a target repo accepts no external PRs. Both keys hold `owner/repo#number`;
+exactly one is present. Every other field is unchanged, and `comments_hash`
+is computed over `gh issue view --json comments` by the same formula.
+
+The issue lane has no automated producer. `auditor-track.yml` polls pull
+requests only, so an issue-lane rejection emits no `pr_comments_snapshot`,
+`auditor-classify.yml` never sees it, and the dissent has to be written by
+hand with `classifier_model: manual-backfill`. Consumers MUST read dissent
+through both keys; `rule-health.py` does this in `contributed_by_fp`.
+
+Precedent: `mattpocock/skills#164` — four `BUG-missing-manifest-entry`
+findings filed as an issue on 2026-05-11, closed by the owner 2h27m later
+with "Yep, this is intentional". The rejection went unrecorded for three
+months because no lane produced it.
+
 ### Event: `maintainer_pushback`
 
 Same shape as `maintainer_rejected`, emitted when a PR is still open or was merged despite objections to one or more findings. This is why PR metadata carries an **array** of fingerprints: per-finding attribution inside bundled PRs matters here.

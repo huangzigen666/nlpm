@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-07T22:43:39Z",
+  "generated_at": "2026-08-31T22:32:08Z",
   "since": null,
   "summary": {
-    "total_repos": 287,
-    "total_findings": 5311,
-    "high_findings": 1792,
+    "total_repos": 294,
+    "total_findings": 5338,
+    "high_findings": 1811,
     "total_advisories": 22,
     "high_advisories": 3,
     "repos_with_drift": 3,
@@ -13,7 +13,7 @@
   "repo_rows": [
     {
       "repo": "kwakseongjae/oh-my-design",
-      "status": "contributed",
+      "status": "complete",
       "stars": 303,
       "score": 86,
       "security": "REVIEW",
@@ -61,7 +61,7 @@
     },
     {
       "repo": "0xNyk/council-of-high-intelligence",
-      "status": "contributed",
+      "status": "complete",
       "stars": 3333,
       "score": 71,
       "security": "REVIEW",
@@ -397,7 +397,7 @@
     },
     {
       "repo": "arpitg1304/robotics-agent-skills",
-      "status": "contributed",
+      "status": "complete",
       "stars": 308,
       "score": 74,
       "security": "REVIEW",
@@ -529,7 +529,7 @@
     },
     {
       "repo": "nicobailon/visual-explainer",
-      "status": "contributed",
+      "status": "tracked",
       "stars": 7692,
       "score": 66,
       "security": "CLEAR",
@@ -1392,6 +1392,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "elementalsouls/Claude-OSINT",
+      "status": "audited",
+      "stars": 2257,
+      "score": 97,
+      "security": "REVIEW",
+      "total_findings": 17,
+      "high_findings": 16,
+      "medium_findings": 1,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "expo/skills",
       "status": "contributed",
       "stars": 1784,
@@ -1824,6 +1836,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "deepseek-ai/deepseek-harness",
+      "status": "audited",
+      "stars": 60382,
+      "score": 97,
+      "security": "CLEAR",
+      "total_findings": 10,
+      "high_findings": 3,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "eze-is/web-access",
       "status": "audited",
       "stars": 7686,
@@ -2113,7 +2137,7 @@
     },
     {
       "repo": "Vincentwei1021/video-shotcraft",
-      "status": "contributed",
+      "status": "tracked",
       "stars": null,
       "score": 100,
       "security": "REVIEW",
@@ -2461,7 +2485,7 @@
     },
     {
       "repo": "JuliusBrussee/caveman",
-      "status": "contributed",
+      "status": "tracked",
       "stars": 22505,
       "score": 92,
       "security": "CLEAR",
@@ -2549,6 +2573,18 @@
       "stars": 776,
       "score": 92,
       "security": "BLOCKED",
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "TencentCloud/TencentDB-Agent-Memory",
+      "status": "discovered",
+      "stars": 25310,
+      "score": null,
+      "security": null,
       "total_findings": 0,
       "high_findings": 0,
       "medium_findings": 0,
@@ -2676,6 +2712,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "ayghri/i-have-adhd",
+      "status": "discovered",
+      "stars": 23537,
+      "score": null,
+      "security": null,
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "calesthio/OpenMontage",
       "status": "discovered",
       "stars": 45129,
@@ -2693,6 +2741,18 @@
       "stars": 698,
       "score": 100,
       "security": "CLEAR",
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "ccch1mneyyy/dsh-TUI",
+      "status": "discovered",
+      "stars": 1667,
+      "score": null,
+      "security": null,
       "total_findings": 0,
       "high_findings": 0,
       "medium_findings": 0,
@@ -2765,6 +2825,18 @@
       "stars": null,
       "score": 93,
       "security": "CLEAR",
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "danny-avila/LibreChat",
+      "status": "discovered",
+      "stars": 42381,
+      "score": null,
+      "security": null,
       "total_findings": 0,
       "high_findings": 0,
       "medium_findings": 0,
@@ -3024,6 +3096,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "microsoft/power-platform-skills",
+      "status": "discovered",
+      "stars": 710,
+      "score": null,
+      "security": null,
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "microsoft/skills",
       "status": "discovered",
       "stars": 2861,
@@ -3157,7 +3241,7 @@
     },
     {
       "repo": "sangrokjung/claude-forge",
-      "status": "contributed",
+      "status": "complete",
       "stars": 648,
       "score": 82,
       "security": "REVIEW",
@@ -3459,8 +3543,8 @@
   "rule_distribution": [
     {
       "rule_id": "R01",
-      "total": 601,
-      "repos_affected": 70
+      "total": 611,
+      "repos_affected": 72
     },
     {
       "rule_id": "R09",
@@ -3479,18 +3563,18 @@
     },
     {
       "rule_id": "UNCLASSIFIED",
-      "total": 250,
-      "repos_affected": 40
+      "total": 252,
+      "repos_affected": 41
+    },
+    {
+      "rule_id": "R05",
+      "total": 184,
+      "repos_affected": 34
     },
     {
       "rule_id": "R07",
       "total": 177,
       "repos_affected": 34
-    },
-    {
-      "rule_id": "R05",
-      "total": 176,
-      "repos_affected": 33
     },
     {
       "rule_id": "R06",
@@ -3544,8 +3628,8 @@
     },
     {
       "rule_id": "R04",
-      "total": 86,
-      "repos_affected": 20
+      "total": 87,
+      "repos_affected": 21
     },
     {
       "rule_id": "CC-terminology-drift",
@@ -3559,8 +3643,8 @@
     },
     {
       "rule_id": "CC-orphan-component",
-      "total": 71,
-      "repos_affected": 55
+      "total": 72,
+      "repos_affected": 56
     },
     {
       "rule_id": "BUG-undeclared-tool",
@@ -3579,8 +3663,8 @@
     },
     {
       "rule_id": "SEC-network-call",
-      "total": 54,
-      "repos_affected": 27
+      "total": 57,
+      "repos_affected": 28
     }
   ],
   "drift_network": {
@@ -5391,7 +5475,7 @@
       "day": "2026-08-07",
       "counts": {
         "report_generated": 2,
-        "dashboard_rendered": 1,
+        "dashboard_rendered": 2,
         "status_check": 5,
         "classifications_emitted": 1,
         "scorer_drift_check": 1,
@@ -5401,6 +5485,233 @@
         "report_artifact_uploaded": 1,
         "prs_submitted": 1,
         "finding_outcome": 1
+      }
+    },
+    {
+      "day": "2026-08-08",
+      "counts": {
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-09",
+      "counts": {
+        "scan_complete": 1,
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "proposals_prepared": 1,
+        "finding_outcome": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-10",
+      "counts": {
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "search_complete": 1,
+        "scorer_drift_check": 1,
+        "findings_aggregated": 1,
+        "repo_report_rendered": 1,
+        "audit_complete": 1,
+        "finding_outcome": 5,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-11",
+      "counts": {
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-12",
+      "counts": {
+        "status_check": 5,
+        "classifications_emitted": 1,
+        "no_narrative": 1,
+        "finding_outcome": 7,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-13",
+      "counts": {
+        "status_check": 6,
+        "finding_outcome": 3,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-14",
+      "counts": {
+        "status_check": 6,
+        "findings_aggregated": 1,
+        "audit_complete": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-15",
+      "counts": {
+        "status_check": 5,
+        "classifications_emitted": 1,
+        "finding_verified": 39,
+        "finding_introduced": 41,
+        "no_narrative": 1,
+        "finding_outcome": 3,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-16",
+      "counts": {
+        "scan_complete": 1,
+        "status_check": 6,
+        "proposals_prepared": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-17",
+      "counts": {
+        "status_check": 6,
+        "search_complete": 1,
+        "finding_outcome": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-18",
+      "counts": {
+        "status_check": 5,
+        "no_narrative": 1,
+        "finding_outcome": 5,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-19",
+      "counts": {
+        "status_check": 6,
+        "finding_outcome": 3,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-20",
+      "counts": {
+        "status_check": 6,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-21",
+      "counts": {
+        "status_check": 6,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-22",
+      "counts": {
+        "status_check": 6,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-23",
+      "counts": {
+        "scan_complete": 1,
+        "status_check": 6,
+        "proposals_prepared": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-24",
+      "counts": {
+        "status_check": 5,
+        "no_narrative": 1,
+        "search_complete": 1,
+        "finding_outcome": 4,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-25",
+      "counts": {
+        "status_check": 6,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-26",
+      "counts": {
+        "status_check": 6,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-27",
+      "counts": {
+        "status_check": 6
+      }
+    },
+    {
+      "day": "2026-08-28",
+      "counts": {
+        "report_generated": 2,
+        "dashboard_rendered": 2,
+        "status_check": 4
+      }
+    },
+    {
+      "day": "2026-08-29",
+      "counts": {
+        "status_check": 6,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-30",
+      "counts": {
+        "scan_complete": 1,
+        "status_check": 6,
+        "proposals_prepared": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-31",
+      "counts": {
+        "status_check": 6,
+        "search_complete": 1,
+        "report_generated": 1
       }
     }
   ],

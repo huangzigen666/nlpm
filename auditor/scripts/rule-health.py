@@ -255,12 +255,99 @@ def main() -> int:
         if d.get("event") == "self_false_positive" and d.get("fingerprint")
     }
 
+    # Registry outcome per PR. Needed before dissent is counted, because a
+    # maintainer closing our PR to land the same fix elsewhere produces a
+    # `maintainer_rejected` record that is not a rejection of the finding.
+    pr_outcome: dict[str, str] = {}
+    for slug, repo_data in registry.get("repos", {}).items():
+        for pr in repo_data.get("prs") or []:
+            number = pr.get("number")
+            outcome = pr.get("outcome")
+            if number is not None and outcome:
+                pr_outcome[f"{slug}#{number}"] = outcome
+
+    # Repos that reached the global findings log at all. Audits run before
+    # the per-audit sidecar shipped (the log's first record is dated
+    # 2026-04-25) wrote a human-readable report and nothing machine-readable,
+    # so their findings have no fingerprints anywhere — nothing to join to,
+    # and nothing a backfill could honestly reconstruct.
+    repos_with_findings = {f.get("repo") for f in findings if f.get("repo")}
+
+    # A PR the maintainer merged, or closed because the fix landed in
+    # another PR, is an accepted finding however the comment thread reads.
+    # The classifier labels "Closing as superseded by #333" as dissent with
+    # dissent_type context_missed; the registry knows better, because the
+    # track workflow recorded the outcome. Without this guard the same
+    # fingerprints are credited as applied_separately AND counted as
+    # maintainer_rejected, and the rule is penalised for a win. Measured on
+    # 2026-08-12: 9 of 25 fingerprinted dissent records sat on accepted PRs
+    # (agent-sh/agnix #828-#830, googleworkspace/cli #757-#760,
+    # tanweai/pua #154-#155), every one of them labelled context_missed.
+    ACCEPTED_OUTCOMES = {"merged", "applied_separately"}
+
+    # An append-only log cannot rewrite a record, so a hand-attributed
+    # rejection is appended alongside the empty original. Count the PR once:
+    # if any record for it carries fingerprints, the empty one is superseded
+    # and is not an outstanding gap.
+    dissent_attributed_prs = {
+        d.get("pr")
+        for d in disagreements
+        if d.get("event") in ("maintainer_rejected", "maintainer_pushback")
+        and d.get("fingerprints")
+        and d.get("pr")
+    }
+
     rejected_by_fp: dict[str, list[dict]] = defaultdict(list)
+    dissent_accepted_elsewhere = 0
+    dissent_unattributed_legacy = 0
+    dissent_unattributed_live = 0
     for d in disagreements:
         if d.get("event") not in ("maintainer_rejected", "maintainer_pushback"):
             continue
-        for fp in d.get("fingerprints", []) or []:
+        if pr_outcome.get(d.get("pr")) in ACCEPTED_OUTCOMES:
+            dissent_accepted_elsewhere += 1
+            continue
+        fingerprints = d.get("fingerprints", []) or []
+        if not fingerprints and d.get("pr") in dissent_attributed_prs:
+            continue
+        if not fingerprints:
+            # Split the blind spot by whether recovery is even possible, so
+            # the pre-sidecar backlog can't hide a live attribution bug.
+            # `live` means the repo HAS findings in the log and this record
+            # still carries none — that is a break in the metadata block or
+            # the classifier, and it is actionable today.
+            slug = (d.get("pr") or d.get("issue") or "").rsplit("#", 1)[0]
+            if slug and slug in repos_with_findings:
+                dissent_unattributed_live += 1
+            else:
+                dissent_unattributed_legacy += 1
+            continue
+        for fp in fingerprints:
             rejected_by_fp[fp].append(d)
+
+    # Issue-lane dissent — records keyed on `issue` rather than `pr`, per
+    # SCHEMAS §Issue-lane variant. These arrive when the target repo accepts
+    # no external PRs, so the findings were filed as an issue and no PR
+    # exists to track. auditor-track.yml polls pull requests only, so an
+    # issue-lane fingerprint never gets a finding_outcome event and would
+    # otherwise land in maintainer_rejected while leaving `contributed` at
+    # 0 — a denominator of zero means classify_rule's disputed branch can
+    # never fire on dissent that arrived through an issue. Map each
+    # fingerprint to its event name so a rejection can also count as a
+    # resolved-negative, the way closed_unmerged does in the PR lane;
+    # maintainer_pushback is deliberately excluded from that second use,
+    # since pushback means the objection did not end the contribution.
+    issue_lane_by_fp: dict[str, str] = {}
+    for d in disagreements:
+        event = d.get("event")
+        if event not in ("maintainer_rejected", "maintainer_pushback"):
+            continue
+        if not d.get("issue"):
+            continue
+        for fp in d.get("fingerprints", []) or []:
+            # A rejection outranks a pushback on the same fingerprint.
+            if issue_lane_by_fp.get(fp) != "maintainer_rejected":
+                issue_lane_by_fp[fp] = event
 
     suppressions_by_rule: dict[str, list[dict]] = defaultdict(list)
     for d in disagreements:
@@ -323,7 +410,10 @@ def main() -> int:
     rule_metrics: dict[str, dict] = {}
     for rid, fs in findings_by_rule.items():
         unique_fps = {f["fingerprint"] for f in fs if f.get("fingerprint")}
-        contributed = sum(1 for fp in unique_fps if fp in outcome_by_fp)
+        issue_lane_fps = {fp for fp in unique_fps if fp in issue_lane_by_fp}
+        contributed = sum(
+            1 for fp in unique_fps if fp in outcome_by_fp or fp in issue_lane_fps
+        )
         merged = sum(1 for fp in unique_fps if outcome_by_fp.get(fp) == "merged")
         applied_separately = len(unique_fps & applied_separately_by_fp)
         # Don't double-count: a fingerprint marked applied_separately in
@@ -335,6 +425,15 @@ def main() -> int:
         # matching event (e.g., legacy attribution).
         closed_unmerged_fps = {
             fp for fp in unique_fps if outcome_by_fp.get(fp) == "closed_unmerged"
+        }
+        # An issue closed by the maintainer as a rejection is the issue-lane
+        # equivalent of a PR closed unmerged: the contribution is resolved
+        # and it did not land. Union, so a fingerprint carrying both a PR
+        # outcome and an issue-lane rejection counts once.
+        closed_unmerged_fps |= {
+            fp
+            for fp in issue_lane_fps
+            if issue_lane_by_fp.get(fp) == "maintainer_rejected"
         }
         closed_unmerged = len(closed_unmerged_fps - applied_separately_by_fp)
         open_count = sum(1 for fp in unique_fps if outcome_by_fp.get(fp) == "open")
@@ -484,6 +583,13 @@ def main() -> int:
         "acceptance_rate": f"{accepted / resolved * 100:.0f}%" if resolved else "N/A",
         "merge_only_rate": f"{len(merged_prs) / resolved * 100:.0f}%" if resolved else "N/A",
         "rule_adopted_repos": rule_adopted,
+        # Dissent that never reached a rule. Reported rather than silently
+        # dropped: a shrinking `live` count is the signal that attribution
+        # is working, and a non-zero one is a bug to chase. `legacy` is the
+        # pre-sidecar backlog and is expected to stay fixed.
+        "dissent_accepted_elsewhere": dissent_accepted_elsewhere,
+        "dissent_unattributed_legacy": dissent_unattributed_legacy,
+        "dissent_unattributed_live": dissent_unattributed_live,
         "top_rules": [(rid, m["hits"]) for rid, m in top_rules],
         "rule_metrics": rule_metrics,
         "dormant_rules": dormant_rules,

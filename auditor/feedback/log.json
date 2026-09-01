@@ -19,7 +19,7 @@
       "state": "healthy"
     },
     "R01": {
-      "total_hits": 601,
+      "total_hits": 611,
       "repos": [
         "slavingia/skills",
         "deanpeters/Product-Manager-Skills",
@@ -27,13 +27,13 @@
       ],
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
-      "self_false_positive": 4,
+      "self_false_positive": 11,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 23,
       "verified_persists": 15,
       "verify_rate": 0.6052631578947368,
-      "introduced_since_audit": 44,
+      "introduced_since_audit": 48,
       "state": "healthy"
     },
     "R33": {
@@ -193,7 +193,7 @@
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
-      "downstream_suppressions": 10,
+      "downstream_suppressions": 13,
       "verified_fixed": 0,
       "verified_persists": 0,
       "verify_rate": null,
@@ -242,9 +242,9 @@
     "BUG-missing-frontmatter": {
       "total_hits": 286,
       "led_to_merged_pr": 27,
-      "led_to_rejected_pr": 6,
+      "led_to_rejected_pr": 15,
       "self_false_positive": 3,
-      "maintainer_rejected": 5,
+      "maintainer_rejected": 7,
       "downstream_suppressions": 0,
       "verified_fixed": 41,
       "verified_persists": 0,
@@ -285,10 +285,10 @@
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 25,
+      "verified_fixed": 26,
       "verified_persists": 0,
       "verify_rate": 1.0,
-      "introduced_since_audit": 203,
+      "introduced_since_audit": 221,
       "state": "healthy"
     },
     "R09": {
@@ -298,14 +298,14 @@
       "self_false_positive": 1,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 15,
+      "verified_fixed": 33,
       "verified_persists": 7,
-      "verify_rate": 0.6818181818181818,
-      "introduced_since_audit": 133,
+      "verify_rate": 0.825,
+      "introduced_since_audit": 151,
       "state": "healthy"
     },
     "UNCLASSIFIED": {
-      "total_hits": 237,
+      "total_hits": 239,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
@@ -359,7 +359,7 @@
     "BUG-undeclared-tool": {
       "total_hits": 69,
       "led_to_merged_pr": 1,
-      "led_to_rejected_pr": 2,
+      "led_to_rejected_pr": 6,
       "self_false_positive": 0,
       "maintainer_rejected": 2,
       "downstream_suppressions": 0,
@@ -370,7 +370,7 @@
       "state": "healthy"
     },
     "R05": {
-      "total_hits": 176,
+      "total_hits": 184,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
@@ -379,7 +379,7 @@
       "verified_fixed": 2,
       "verified_persists": 0,
       "verify_rate": 1.0,
-      "introduced_since_audit": 26,
+      "introduced_since_audit": 27,
       "state": "healthy"
     },
     "R25": {
@@ -398,22 +398,22 @@
     "CC-stale-count": {
       "total_hits": 58,
       "led_to_merged_pr": 1,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 2,
       "self_false_positive": 0,
-      "maintainer_rejected": 4,
+      "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 2,
       "verified_persists": 0,
       "verify_rate": 1.0,
       "introduced_since_audit": 2,
-      "state": "disputed"
+      "state": "healthy"
     },
     "CC-orphan-component": {
-      "total_hits": 71,
+      "total_hits": 72,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 1,
-      "maintainer_rejected": 1,
+      "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 2,
       "verified_persists": 1,
@@ -504,7 +504,7 @@
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 3,
       "self_false_positive": 0,
-      "maintainer_rejected": 3,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 8,
       "verified_persists": 1,
@@ -513,7 +513,7 @@
       "state": "healthy"
     },
     "SEC-path-traversal": {
-      "total_hits": 48,
+      "total_hits": 49,
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
       "self_false_positive": 4,
@@ -530,7 +530,7 @@
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
-      "maintainer_rejected": 1,
+      "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 1,
       "verified_persists": 0,
@@ -543,13 +543,13 @@
       "led_to_merged_pr": 2,
       "led_to_rejected_pr": 7,
       "self_false_positive": 1,
-      "maintainer_rejected": 6,
+      "maintainer_rejected": 5,
       "downstream_suppressions": 0,
-      "verified_fixed": 10,
+      "verified_fixed": 11,
       "verified_persists": 0,
       "verify_rate": 1.0,
       "introduced_since_audit": 0,
-      "state": "disputed"
+      "state": "healthy"
     },
     "R30": {
       "total_hits": 12,
@@ -585,8 +585,8 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 2,
-      "verified_persists": 1,
-      "verify_rate": 0.6666666666666666,
+      "verified_persists": 2,
+      "verify_rate": 0.5,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -1111,7 +1111,7 @@
       "state": "healthy"
     },
     "SEC-network-call": {
-      "total_hits": 54,
+      "total_hits": 57,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 2,
@@ -1319,7 +1319,7 @@
       "state": "healthy"
     },
     "R04": {
-      "total_hits": 86,
+      "total_hits": 87,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
@@ -2090,7 +2090,7 @@
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 22,
       "verified_persists": 0,
@@ -3011,9 +3011,9 @@
     "SEC-network-fetch-external-code": {
       "total_hits": 1,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
       "verified_persists": 0,
@@ -3024,9 +3024,9 @@
     "SEC-network-deploy-public": {
       "total_hits": 1,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
       "verified_persists": 0,
@@ -3050,9 +3050,9 @@
     "SEC-path-delimiter-injection": {
       "total_hits": 1,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
       "verified_persists": 0,
@@ -3648,9 +3648,9 @@
     "BUG-missing-manifest-entry": {
       "total_hits": 4,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
       "verified_persists": 0,
@@ -4804,40 +4804,40 @@
     },
     "BUG-frontmatter-roster-mismatch": {
       "total_hits": 1,
-      "led_to_merged_pr": 0,
+      "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 1,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
     "BUG-asymmetric-cross-reference": {
       "total_hits": 1,
-      "led_to_merged_pr": 0,
+      "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 1,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
     "BUG-invalid-color-enum": {
       "total_hits": 12,
-      "led_to_merged_pr": 0,
+      "led_to_merged_pr": 12,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 12,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -4849,8 +4849,8 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
-      "verified_persists": 0,
-      "verify_rate": null,
+      "verified_persists": 1,
+      "verify_rate": 0.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -4861,9 +4861,9 @@
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 2,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -4874,9 +4874,9 @@
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 1,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -5581,6 +5581,19 @@
       "verify_rate": null,
       "introduced_since_audit": 0,
       "state": "healthy"
+    },
+    "SEC-undeclared-dependency": {
+      "total_hits": 1,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
     }
   },
   "metadata": {
@@ -5589,9 +5602,9 @@
     "total_events": 16,
     "total_audits": 10,
     "total_prs_submitted": 322,
-    "total_prs_merged": 116,
-    "total_prs_rejected": 63,
-    "total_prs_applied_separately": 24,
-    "updated_at": "2026-08-07T22:10:46.687792Z"
+    "total_prs_merged": 124,
+    "total_prs_rejected": 71,
+    "total_prs_applied_separately": 32,
+    "updated_at": "2026-08-31T22:05:26.407500Z"
   }
 }
