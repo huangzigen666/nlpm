@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "last_discovery": "2026-10-05T06:15:43Z",
+    "last_discovery": "2026-10-12T06:15:04Z",
     "total_audited": 12,
     "total_contributed": 6,
-    "total_discovered": 289
+    "total_discovered": 290
   },
   "repos": {
     "0xNyk/council-of-high-intelligence": {
@@ -10228,6 +10228,16 @@
       "commit_sha_at_audit": "6bf36182dcdb95a55bc8fd8b522ce845f855cbc6",
       "pipeline_prs": [],
       "rule_adopted": false
+    },
+    "EpicGames/unreal-engine-skills-for-claude-code-plugin": {
+      "discovered": "2026-10-12T06:15:04Z",
+      "stars": 513,
+      "artifacts": 5,
+      "description": "",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 1453,
+      "prs": []
     }
   }
 }
