@@ -1,14 +1,16 @@
 {
   "metadata": {
-    "last_discovery": "2026-08-31T06:11:05Z",
+    "last_discovery": "2026-10-12T06:15:04Z",
     "total_audited": 12,
     "total_contributed": 6,
-    "total_discovered": 278
+    "total_discovered": 290
   },
   "repos": {
     "0xNyk/council-of-high-intelligence": {
       "artifacts": 20,
       "audit_issue": 535,
+      "case_study_skip_reason": "thin narrative: score=71, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
       "commit_sha_at_audit": "f996d386eb2c33601977915828f5f3ea383e9f49",
       "description": "18 AI personas deliberate your hardest decisions across multiple LLM providers. Structured multi-round deliberation, confidence-weighted verdicts, genuine model diversity. Install as a Claude Code plugin — one command: /council",
       "discovered": "2026-07-06T07:29:13Z",
@@ -97,9 +99,7 @@
       "security": "REVIEW",
       "stars": 3333,
       "status": "complete",
-      "strategy": "batched",
-      "case_study_skipped": true,
-      "case_study_skip_reason": "thin narrative: score=71, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
+      "strategy": "batched"
     },
     "0xSteph/pentest-ai-agents": {
       "artifacts": 55,
@@ -309,26 +309,26 @@
       "prs": [
         {
           "number": 19,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-10T14:54:40Z",
           "title": "fix: remove --break-system-packages silent fallback in install.sh",
-          "updatedAt": "2026-04-20T18:24:54Z",
+          "updatedAt": "2026-09-10T14:54:40Z",
           "createdAt": "2026-04-20T18:24:54Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 20,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-10T14:54:35Z",
           "title": "fix: replace curl-pipe-sh guidance with plugin install command in install.sh",
-          "updatedAt": "2026-04-20T18:25:34Z",
+          "updatedAt": "2026-09-10T14:54:35Z",
           "createdAt": "2026-04-20T18:25:34Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -338,7 +338,7 @@
       "score": 99,
       "security": "REVIEW",
       "stars": 2377,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "batched"
     },
     "AgriciDaniel/claude-blog": {
@@ -550,26 +550,26 @@
       "prs": [
         {
           "number": 15,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-10-02T05:55:17Z",
           "title": "fix: add allowed-tools declaration to parallel command files",
-          "updatedAt": "2026-04-22T00:33:47Z",
+          "updatedAt": "2026-10-02T05:55:17Z",
           "createdAt": "2026-04-22T00:33:47Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 16,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-10-02T05:55:19Z",
           "title": "fix: remove broken AGENTS.md cross-references from skill files",
-          "updatedAt": "2026-04-22T00:34:37Z",
+          "updatedAt": "2026-10-02T05:55:19Z",
           "createdAt": "2026-04-22T00:34:37Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -578,7 +578,7 @@
       "rule_adopted": false,
       "score": 93,
       "security": "CLEAR",
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "batched"
     },
     "CoderGamester/mcp-unity": {
@@ -810,6 +810,19 @@
       "status": "audited",
       "strategy": "progressive"
     },
+    "Gentleman-Programming/gentle-ai": {
+      "artifacts": 134,
+      "audit_issue": 1087,
+      "commit_sha_at_audit": "5bf23ad922b833278c2b99fb0ea3a8065655074c",
+      "description": "Gentle-AI configures the AI coding agents you already use: Claude Code, Cursor, OpenCode, Codex, Pi, and more. Choose persistent memory, Spec-Driven Development, curated skills, MCP servers, personas, and optional bounded review. Open source, no agent lock-in.",
+      "discovered": "2026-09-07T06:10:37Z",
+      "prs": [],
+      "score": 78,
+      "security": "BLOCKED",
+      "stars": 6328,
+      "status": "audited",
+      "strategy": "progressive"
+    },
     "Graphify-Labs/graphify": {
       "artifacts": 25,
       "audit_issue": 536,
@@ -847,13 +860,13 @@
       "prs": [
         {
           "number": 15,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-27T14:10:55Z",
           "title": "fix: cache update-check result to avoid curl on every session start",
-          "updatedAt": "2026-04-30T07:04:40Z",
+          "updatedAt": "2026-09-27T14:11:09Z",
           "createdAt": "2026-04-30T07:03:19Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:f36a66cb582161ec87932ad56839892f3c49cde957950226ab0daa0036546f4c"
           ],
@@ -867,7 +880,7 @@
       "score": 89,
       "security": "REVIEW",
       "stars": 336,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "progressive"
     },
     "Imbad0202/academic-research-skills": {
@@ -1086,7 +1099,7 @@
           "rule_ids": [
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -1332,7 +1345,7 @@
           "outcome": "open",
           "fingerprints": [],
           "rule_ids": [],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 120,
@@ -1349,7 +1362,7 @@
           "rule_ids": [
             "SEC-unpinned-semver"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 121,
@@ -1366,7 +1379,7 @@
           "rule_ids": [
             "SEC-unpinned-semver"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -1404,6 +1417,19 @@
       "stars": 174,
       "status": "audited",
       "strategy": "progressive"
+    },
+    "LibreChat-AI/LibreChat": {
+      "artifacts": 6,
+      "audit_issue": 1275,
+      "commit_sha_at_audit": "b341f93805843d8acbf7e3ff69c8cf4ccc81265c",
+      "description": "Enhanced ChatGPT Clone: Features Agents, MCP, Skills, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active",
+      "discovered": "2026-09-28T06:12:10Z",
+      "prs": [],
+      "score": 99,
+      "security": "BLOCKED",
+      "stars": 45010,
+      "status": "audited",
+      "strategy": "single"
     },
     "LigphiDonk/Oh-my--paper": {
       "artifacts": 98,
@@ -1731,6 +1757,34 @@
       "status": "audited",
       "strategy": "batched"
     },
+    "Nanako0129/sepia": {
+      "artifacts": 8,
+      "audit_issue": 1088,
+      "commit_sha_at_audit": "06a5233395299ff78558b15568679c2c5c0fe942",
+      "description": "De-AI writing skill for any Agent Skills-compatible agent (77+ via the Skills CLI), with native plugins for Claude Code, Codex, Grok Build, and Antigravity. Narrative-architecture repair for fiction, venue-matched rules for professional prose. Based on StoryScope (arXiv:2604.03136).",
+      "discovered": "2026-09-07T06:10:37Z",
+      "exemplar_path": "auditor/exemplars/Nanako0129-sepia.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 100,
+      "security": "CLEAR",
+      "stars": 2355,
+      "status": "audited",
+      "strategy": "single"
+    },
+    "NanmiCoder/cc-haha": {
+      "artifacts": 7,
+      "audit_issue": 1276,
+      "commit_sha_at_audit": "da51feb8cf0e90718d9c7f3f29af3703eaf0d5d4",
+      "description": "Local-first cross-platform desktop workspace for Claude Code / agents: multi-agent, Git worktrees, code diffs, skill marketplace, multi-model, Computer Use, task-aware desktop pets, with WeChat, Feishu, DingTalk, Telegram, WhatsApp and H5 access.",
+      "discovered": "2026-09-28T06:12:10Z",
+      "prs": [],
+      "score": 80,
+      "security": "CLEAR",
+      "stars": 14740,
+      "status": "audited",
+      "strategy": "single"
+    },
     "NicholasSpisak/claude-code-subagents": {
       "artifacts": 78,
       "audit_issue": 544,
@@ -1766,7 +1820,7 @@
             "BUG-undeclared-tool",
             "BUG-undeclared-tool"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 7,
@@ -1783,7 +1837,7 @@
           "rule_ids": [
             "CC-duplicate-agent-name"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 8,
@@ -1800,7 +1854,7 @@
           "rule_ids": [
             "CC-stale-count"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -2080,6 +2134,19 @@
       "status": "complete",
       "strategy": "batched"
     },
+    "Shubhamsaboo/awesome-llm-apps": {
+      "artifacts": 146,
+      "audit_issue": 757,
+      "commit_sha_at_audit": "779e9f9bcf87fa8cd95870a438b70b84e47d3173",
+      "description": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
+      "discovered": "2026-08-05T02:07:37Z",
+      "prs": [],
+      "score": 96,
+      "security": "BLOCKED",
+      "stars": 130536,
+      "status": "audited",
+      "strategy": "single"
+    },
     "SimoneAvogadro/android-reverse-engineering-skill": {
       "artifacts": 3,
       "audit_issue": 242,
@@ -2129,6 +2196,19 @@
       "status": "audited",
       "strategy": "progressive"
     },
+    "TencentCloud/TencentDB-Agent-Memory": {
+      "artifacts": 18,
+      "audit_issue": 1026,
+      "commit_sha_at_audit": "8b86874a2daea49e3ff0fb53d699203146c5c77d",
+      "description": "TencentDB Agent Memory is a team-level memory hub for AI Agents — turning conversations, docs, and code into four reusable memory assets (Chat Memory, Skill, LLM-Wiki, Code-Graph) that are governed, shared, and equipped across agents and frameworks.",
+      "discovered": "2026-08-31T06:11:05Z",
+      "prs": [],
+      "score": 91,
+      "security": "BLOCKED",
+      "stars": 25310,
+      "status": "audited",
+      "strategy": "single"
+    },
     "The-Vibe-Company/companion": {
       "artifacts": 25,
       "audit_issue": 178,
@@ -2159,6 +2239,61 @@
       "security": "CLEAR",
       "stars": 537,
       "status": "contributed",
+      "strategy": "single"
+    },
+    "Vincentwei1021/video-shotcraft": {
+      "case_study_candidate": true,
+      "commit_sha_at_audit": "0022ec45d28800cecb5b16624a3179093c93f4e9",
+      "exemplar_path": "auditor/exemplars/Vincentwei1021-video-shotcraft.md",
+      "exemplar_published": true,
+      "pipeline_prs": [
+        30,
+        31
+      ],
+      "prs": [
+        {
+          "number": 30,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-08-09T09:53:10Z",
+          "title": "fix: escape media.url in gallery data-src attributes",
+          "updatedAt": "2026-08-09T09:53:10Z",
+          "createdAt": "2026-08-07T12:19:47Z",
+          "outcome": "applied_separately",
+          "fingerprints": [
+            "sha256:fe9bcce17b04db042b1843e383c797e9f8c507d99e5377e649272db1bbf664c5",
+            "sha256:feb1039c429e3ace708ddb25e1cb7d9238d2c588b33843a9785be78a245d7a57"
+          ],
+          "rule_ids": [
+            "SEC-unescaped-attribute-interpolation",
+            "SEC-unescaped-attribute-interpolation"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 31,
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T09:38:42Z",
+          "closedAt": "2026-08-09T09:38:42Z",
+          "title": "fix: exact-pin devDependency versions in template/package.json",
+          "updatedAt": "2026-08-09T09:38:42Z",
+          "createdAt": "2026-08-07T12:22:38Z",
+          "outcome": "merged",
+          "fingerprints": [
+            "sha256:df19dd4eff2d1c1ad1010c2ddee404ab7438f1ede59488b2a792f58ebe8485a7",
+            "sha256:da82d7cfbf59b7a19d1d2759314e782f64c7c0ab8eba84e0d04c867ef3cfc4ed"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver",
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
+      "rule_adopted": false,
+      "score": 100,
+      "security": "REVIEW",
+      "status": "tracked",
       "strategy": "single"
     },
     "VoltAgent/awesome-claude-code-subagents": {
@@ -3162,6 +3297,8 @@
     "arpitg1304/robotics-agent-skills": {
       "artifacts": 10,
       "audit_issue": 545,
+      "case_study_skip_reason": "thin narrative: score=74, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
       "commit_sha_at_audit": "54f7b578f3dc269d29c0beb623b3f2611fd3a430",
       "description": "Agent skills that make AI coding assistants write production-grade robotics software. ROS1, ROS2, design patterns, SOLID principles, and testing — for Claude Code, Cursor, Copilot, and any SKILL.md-compatible agent.",
       "discovered": "2026-07-07T00:24:00Z",
@@ -3216,9 +3353,7 @@
       "security": "REVIEW",
       "stars": 308,
       "status": "complete",
-      "strategy": "single",
-      "case_study_skipped": true,
-      "case_study_skip_reason": "thin narrative: score=74, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
+      "strategy": "single"
     },
     "astral-sh/claude-code-plugins": {
       "artifacts": 4,
@@ -3346,6 +3481,21 @@
       "score": 90,
       "security": "CLEAR",
       "stars": 2669,
+      "status": "audited",
+      "strategy": "single"
+    },
+    "ayghri/i-have-adhd": {
+      "artifacts": 5,
+      "audit_issue": 967,
+      "commit_sha_at_audit": "839872f9d1cd634fed642b4589ce7226199cc15f",
+      "description": "A skill to stop your coding agent from burying the answer. ADHD-friendly output.",
+      "discovered": "2026-08-24T06:12:16Z",
+      "exemplar_path": "auditor/exemplars/ayghri-i-have-adhd.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 97,
+      "security": "CLEAR",
+      "stars": 23537,
       "status": "audited",
       "strategy": "single"
     },
@@ -3478,6 +3628,71 @@
       "status": "audited",
       "strategy": "progressive"
     },
+    "calesthio/OpenMontage": {
+      "artifacts": 627,
+      "audit_issue": 758,
+      "commit_sha_at_audit": "4eab34c5cfcccaa4f1970554928feccce73ee930",
+      "description": "World's first open-source, agentic video production system. 12 production pipelines, 100+ tools, 700+ agent skill and production-knowledge files. Turn your AI coding assistant into a full video production studio.",
+      "discovered": "2026-08-05T02:07:37Z",
+      "exemplar_path": "auditor/exemplars/calesthio-OpenMontage.md",
+      "exemplar_published": true,
+      "pipeline_prs": [
+        689,
+        690
+      ],
+      "prs": [
+        {
+          "number": 689,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(motion-graphics): correct relative reference paths in agents",
+          "updatedAt": "2026-09-30T18:14:34Z",
+          "createdAt": "2026-09-30T18:14:33Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:4b108299eb2ca5a68aa9ff505a19a2d9df96656cc11a2e0e9661d727d3f583ad",
+            "sha256:472c0447891ec363439270405deb234f66687df5d50441f3e01783dcab973377",
+            "sha256:3fd00086a7fe02aabd79d35989b5a75ee1a0270aa91b6a266d45e320d3a03720"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference",
+            "BUG-broken-reference",
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 690,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(skills): repair broken relative links",
+          "updatedAt": "2026-09-30T18:14:36Z",
+          "createdAt": "2026-09-30T18:14:35Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:dd7d0d56e10a66081d5ba6dbf3d1479c0ba281d3f7a549f592c7975d0a4f3067",
+            "sha256:6ab5ada60f43645935cc6ee8c1db68256990c29560c4907c7371620540a05e45",
+            "sha256:36a091535fec70a61ebc6307b629712b0b2d03eb728b02ccb37111a31d1248f1",
+            "sha256:836a712227449b7aa41ec909dcdf2ae3fdb5feffde1977b973d457bcae448feb"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference",
+            "BUG-broken-reference",
+            "BUG-broken-reference",
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
+      "rule_adopted": false,
+      "score": 95,
+      "security": "REVIEW",
+      "stars": 45129,
+      "status": "contributed",
+      "strategy": "progressive"
+    },
     "caliber-ai-org/ai-setup": {
       "artifacts": 24,
       "audit_issue": 142,
@@ -3568,6 +3783,21 @@
       "stars": 698,
       "status": "complete",
       "strategy": "batched"
+    },
+    "ccch1mneyyy/dsh-TUI": {
+      "artifacts": 7,
+      "audit_issue": 904,
+      "commit_sha_at_audit": "8540a58f4e7315c8b7abe9220a5af453f032c2f0",
+      "description": "DSH 官方公众号收录的 TUI 补位插件：Claude Code 风，鲸鱼顶栏/实时状态/流式思考/双击 Esc 回滚/上下文进度+TPS。npm 一键装。  DSH official WeChat featured TUI plugin — Claude Code style: whale bar, live status, streaming thoughts, double-Esc rollback, context bar + TPS. npm one-click.",
+      "discovered": "2026-08-17T06:09:36Z",
+      "exemplar_path": "auditor/exemplars/ccch1mneyyy-dsh-TUI.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 95,
+      "security": "REVIEW",
+      "stars": 1667,
+      "status": "audited",
+      "strategy": "single"
     },
     "ccplugins/awesome-claude-code-plugins": {
       "pipeline_prs": [
@@ -3664,6 +3894,21 @@
       "stars": 2210,
       "status": "audited",
       "strategy": "batched"
+    },
+    "ciembor/agent-rules-books": {
+      "artifacts": 14,
+      "audit_issue": 1151,
+      "commit_sha_at_audit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "description": "AGENTS.md rules / skills for AI coding agents: Codex, Cursor & Claude Code. Inspired by Clean Code, Refactoring, DDD, Clean Architecture and DDIA programming books.",
+      "discovered": "2026-09-14T06:11:05Z",
+      "exemplar_path": "auditor/exemplars/ciembor-agent-rules-books.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 100,
+      "security": "CLEAR",
+      "stars": 2771,
+      "status": "audited",
+      "strategy": "single"
     },
     "code-yeongyu/oh-my-openagent": {
       "artifacts": 11,
@@ -3829,6 +4074,21 @@
       "status": "contributed",
       "strategy": "single"
     },
+    "danny-avila/LibreChat": {
+      "artifacts": 5,
+      "audit_issue": 968,
+      "commit_sha_at_audit": "14f7b2865692d27364c934ecb9912496371018bb",
+      "description": "Enhanced ChatGPT Clone: Features Agents, MCP, Skills, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active",
+      "discovered": "2026-08-24T06:12:16Z",
+      "exemplar_path": "auditor/exemplars/danny-avila-LibreChat.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 97,
+      "security": "CLEAR",
+      "stars": 42381,
+      "status": "audited",
+      "strategy": "single"
+    },
     "data-goblin/power-bi-agentic-development": {
       "artifacts": 47,
       "audit_issue": 362,
@@ -3935,6 +4195,19 @@
       "score": 89,
       "security": "CLEAR",
       "status": "tracked",
+      "strategy": "batched"
+    },
+    "deepseek-ai/deepseek-harness": {
+      "artifacts": 28,
+      "commit_sha_at_audit": "47f943859bef60e4160492346772ded9b24f765a",
+      "description": "DeepSeek Harness: Everything is a Plugin.",
+      "discovered": "2026-08-14T00:00:00Z",
+      "discovery_strategy": "manual-request",
+      "prs": [],
+      "score": 97,
+      "security": "CLEAR",
+      "stars": 60382,
+      "status": "audited",
       "strategy": "batched"
     },
     "diet103/claude-code-infrastructure-showcase": {
@@ -4218,6 +4491,60 @@
       "status": "tracked",
       "strategy": "progressive"
     },
+    "elementalsouls/Claude-OSINT": {
+      "artifacts": 10,
+      "audit_issue": 827,
+      "case_study_candidate": true,
+      "case_study_skip_reason": "thin narrative: score=97, security=REVIEW, merged=2, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
+      "commit_sha_at_audit": "7d1516291f24a48696a1db7f86ecb15c75249754",
+      "description": "8 Claude skills · 100+ recon capabilities · 80 secret-regex patterns · 80+ dorks · 9 read-only credential validators · 27 attack-path templates · ~10,000 lines of structured tradecraft. Drop-in SKILL.md files that turn Claude into a god-mode external recon operator for authorized red-team and bug-bounty engagements.",
+      "discovered": "2026-08-10T06:26:33Z",
+      "exemplar_path": "auditor/exemplars/elementalsouls-Claude-OSINT.md",
+      "exemplar_published": true,
+      "pipeline_prs": [
+        14,
+        15
+      ],
+      "prs": [
+        {
+          "number": 14,
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T20:36:17Z",
+          "closedAt": "2026-08-10T20:36:17Z",
+          "title": "fix(osint-autopilot): validate domain arg to prevent path traversal",
+          "updatedAt": "2026-08-10T20:36:17Z",
+          "createdAt": "2026-08-10T12:20:20Z",
+          "outcome": "merged",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 15,
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T20:45:08Z",
+          "closedAt": "2026-08-10T20:45:08Z",
+          "title": "fix(osint-autopilot): declare openpyxl as a required dependency",
+          "updatedAt": "2026-08-10T20:45:08Z",
+          "createdAt": "2026-08-10T12:21:08Z",
+          "outcome": "merged",
+          "fingerprints": [
+            "sha256:0b7ac2ca36a26d70f5d00b2e0b25059d879af6d7496f38db59b9e5697258c38b"
+          ],
+          "rule_ids": [
+            "SEC-undeclared-dependency"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
+      "rule_adopted": false,
+      "score": 97,
+      "security": "REVIEW",
+      "stars": 2257,
+      "status": "complete",
+      "strategy": "single"
+    },
     "eroslifestyle/Claude-Orchestrator-Plugin": {
       "artifacts": 29,
       "audit_issue": 166,
@@ -4376,6 +4703,8 @@
     "fcakyon/claude-codex-settings": {
       "artifacts": 97,
       "audit_issue": 62,
+      "case_study_skip_reason": "thin narrative: score=79, security=REVIEW, merged=1, applied_separately=0, rejected=1, rule_adopted=False",
+      "case_study_skipped": true,
       "description": "My personal Claude Code and OpenAI Codex setup with battle-tested skills, plugins, hooks and agents that I use daily.",
       "discovered": "2026-04-13T06:41:48Z",
       "pipeline_prs": [
@@ -4457,9 +4786,7 @@
       "security": "REVIEW",
       "stars": 590,
       "status": "complete",
-      "strategy": "progressive",
-      "case_study_skipped": true,
-      "case_study_skip_reason": "thin narrative: score=79, security=REVIEW, merged=1, applied_separately=0, rejected=1, rule_adopted=False"
+      "strategy": "progressive"
     },
     "feiskyer/claude-code-settings": {
       "artifacts": 42,
@@ -4594,6 +4921,19 @@
       "status": "complete",
       "strategy": "single"
     },
+    "fivetaku/gptaku_plugins": {
+      "artifacts": 5,
+      "audit_issue": 1152,
+      "commit_sha_at_audit": "909f31c687d324da08825f993bc12432c1004777",
+      "description": "A Claude Code plugin marketplace for people who want to become AI Native",
+      "discovered": "2026-09-14T06:11:05Z",
+      "prs": [],
+      "score": 96,
+      "security": "BLOCKED",
+      "stars": 1136,
+      "status": "audited",
+      "strategy": "single"
+    },
     "forrestchang/andrej-karpathy-skills": {
       "artifacts": null,
       "audit_issue": 258,
@@ -4649,6 +4989,8 @@
     "gemini-cli-extensions/conductor": {
       "artifacts": 6,
       "audit_issue": 633,
+      "case_study_skip_reason": "thin narrative: score=90, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
       "commit_sha_at_audit": "fb6212e8faee3f9ecb69f0ee19bd5b2a0765bb0a",
       "description": "A plugin for AI coding agents (Antigravity, Claude Code) enabling Spec-Driven Development to specify, plan, and implement software features.",
       "discovered": "2026-07-20T08:43:07Z",
@@ -4677,9 +5019,7 @@
       "security": "REVIEW",
       "stars": 3657,
       "status": "complete",
-      "strategy": "single",
-      "case_study_skipped": true,
-      "case_study_skip_reason": "thin narrative: score=90, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
+      "strategy": "single"
     },
     "github/awesome-copilot": {
       "artifacts": 527,
@@ -5017,7 +5357,7 @@
           "rule_ids": [
             "SEC-cdn-script-import"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -5199,6 +5539,59 @@
       "status": "complete",
       "strategy": "batched"
     },
+    "hex/claude-council": {
+      "artifacts": 11,
+      "audit_issue": 1215,
+      "commit_sha_at_audit": "ea1dcbf42ae255b9b96141c732c1a2d396390580",
+      "description": "Claude Code plugin that asks several AI coding agents the same question and shows their answers side by side. Gemini, OpenAI, Grok, Perplexity, Kimi and any model OpenRouter routes to over API; codex, antigravity, grok and kimi CLIs on subscription auth; ollama locally.",
+      "discovered": "2026-09-21T06:11:26Z",
+      "exemplar_path": "auditor/exemplars/hex-claude-council.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 95,
+      "security": "REVIEW",
+      "stars": 780,
+      "status": "audited",
+      "strategy": "single"
+    },
+    "hoangsonww/Claude-Code-Agent-Monitor": {
+      "artifacts": 131,
+      "audit_issue": 759,
+      "case_study_candidate": true,
+      "case_study_skip_reason": "thin narrative: score=72, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
+      "commit_sha_at_audit": "10d6b2ef6304017c93b31bfa817e31caa7de1403",
+      "description": "🚀 A real-time monitoring dashboard for Claude Code & Codex, built with SQLite3, Node.js, Express, React, Vite, TailwindCSS, & WebSockets. It tracks sessions, agent activity, tool usage, and subagent orchestration, providing live analytics, a Kanban status board, status notifications, a cute buddy, & an interactive web UI/MacOS/Windows native app.",
+      "discovered": "2026-08-05T02:07:37Z",
+      "pipeline_prs": [
+        355
+      ],
+      "prs": [
+        {
+          "number": 355,
+          "state": "MERGED",
+          "mergedAt": "2026-10-03T18:08:44Z",
+          "closedAt": "2026-10-03T18:08:44Z",
+          "title": "fix(plugins): point dashboard-operator self-update at an existing script",
+          "updatedAt": "2026-10-04T03:58:48Z",
+          "createdAt": "2026-09-30T18:14:29Z",
+          "outcome": "merged",
+          "fingerprints": [
+            "sha256:7a951b601c015107c0b892b60b99b50f51278d0fe7872240b91a63bc2ba4c4d9"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
+      "rule_adopted": false,
+      "score": 72,
+      "security": "REVIEW",
+      "stars": 870,
+      "status": "tracked",
+      "strategy": "progressive"
+    },
     "htdt/godogen": {
       "artifacts": 6,
       "audit_issue": 108,
@@ -5330,6 +5723,19 @@
       "status": "orphaned",
       "strategy": "single",
       "terminal_reason": "prs_disabled"
+    },
+    "indranilbanerjee/digital-marketing-pro": {
+      "artifacts": 203,
+      "audit_issue": 760,
+      "commit_sha_at_audit": "e39f3940519ddb4103c197ccf7ec4951d5e8a8b9",
+      "description": "Open-source AI marketing plugin for agencies & in-house teams — 158 skills, 25 specialist agents, 12-Part Strategy Flow, Cowork team-persistent, EU AI Act Article 50 ready, 6-platform AEO/GEO incl. Google AI Mode. Installs on Claude Code, Cowork, Codex, Cursor, Copilot CLI, Antigravity. MIT-licensed.",
+      "discovered": "2026-08-05T02:07:37Z",
+      "prs": [],
+      "score": 91,
+      "security": "BLOCKED",
+      "stars": 705,
+      "status": "audited",
+      "strategy": "progressive"
     },
     "itsmostafa/aws-agent-skills": {
       "artifacts": 18,
@@ -5693,7 +6099,7 @@
           "rule_ids": [
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 8,
@@ -5712,7 +6118,7 @@
             "SEC-unpinned-semver",
             "SEC-unpinned-semver"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -5877,6 +6283,8 @@
     "kwakseongjae/oh-my-design": {
       "artifacts": 88,
       "audit_issue": 548,
+      "case_study_skip_reason": "thin narrative: score=86, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
       "commit_sha_at_audit": "812211f1aeaa264ac7a1a75eec82ecf7923da2ba",
       "description": "Give your AI coding agent a design system. One command installs 300+ hand-verified company DESIGN.md references + skills into Claude Code, Codex, Cursor, and OpenCode. Free, MIT, zero AI calls.",
       "discovered": "2026-07-07T00:24:00Z",
@@ -5957,9 +6365,7 @@
       "security": "REVIEW",
       "stars": 303,
       "status": "complete",
-      "strategy": "progressive",
-      "case_study_skipped": true,
-      "case_study_skip_reason": "thin narrative: score=86, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
+      "strategy": "progressive"
     },
     "lackeyjb/playwright-skill": {
       "artifacts": null,
@@ -6101,7 +6507,7 @@
           "rule_ids": [
             "BUG-name-mismatch"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 19,
@@ -6122,7 +6528,7 @@
             "BUG-duplicate-tool-entry",
             "BUG-duplicate-tool-entry"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -6236,7 +6642,7 @@
           "rule_ids": [
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 25,
@@ -6253,7 +6659,7 @@
           "rule_ids": [
             "SEC-external-http-mcp"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -6351,6 +6757,21 @@
       "status": "audited",
       "strategy": "single"
     },
+    "michaelshimeles/skills": {
+      "artifacts": 8,
+      "audit_issue": 1089,
+      "commit_sha_at_audit": "4b72f46b045e6fef52e6a98d4c162dd309826aed",
+      "description": "Agent skills and an AGENTS.md workflow template — isolate in worktrees, build to a service layer, prove with evidence, ship with before/after proof and Greptile review loops. For Claude Code, Cursor, and Codex.",
+      "discovered": "2026-09-07T06:10:37Z",
+      "exemplar_path": "auditor/exemplars/michaelshimeles-skills.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 95,
+      "security": "REVIEW",
+      "stars": 648,
+      "status": "audited",
+      "strategy": "single"
+    },
     "microsoft/SkillOpt": {
       "artifacts": 5,
       "audit_issue": 511,
@@ -6363,6 +6784,36 @@
       "stars": 10542,
       "status": "audited",
       "strategy": "single"
+    },
+    "microsoft/power-platform-skills": {
+      "artifacts": 127,
+      "audit_issue": 905,
+      "commit_sha_at_audit": "c97753299937976aae38710c190dc64be605051f",
+      "description": "A plugin marketplace for Claude Code/GitHub Copilot that provides Power Platform development plugins, including reusable skills, agents, and commands for building and deploying solutions.",
+      "discovered": "2026-08-17T06:09:36Z",
+      "exemplar_path": "auditor/exemplars/microsoft-power-platform-skills.md",
+      "exemplar_published": true,
+      "pipeline_prs": [],
+      "prs": [],
+      "rule_adopted": false,
+      "score": 96,
+      "security": "REVIEW",
+      "stars": 710,
+      "status": "contributed",
+      "strategy": "progressive"
+    },
+    "microsoft/skills": {
+      "artifacts": 226,
+      "audit_issue": 761,
+      "commit_sha_at_audit": "1f28ae4c5e5edc2cbe10b3756a20524fc92cee07",
+      "description": "Skills, MCP servers, Custom Agents, Agents.md for SDKs to ground Coding Agents",
+      "discovered": "2026-08-05T02:07:37Z",
+      "prs": [],
+      "score": 94,
+      "security": "BLOCKED",
+      "stars": 2861,
+      "status": "audited",
+      "strategy": "progressive"
     },
     "mikeyobrien/ralph-orchestrator": {
       "artifacts": 48,
@@ -6455,7 +6906,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 7,
@@ -6472,7 +6923,7 @@
           "rule_ids": [
             "SEC-unstable-api"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -7015,7 +7466,7 @@
           "rule_ids": [
             "SEC-curl-pipe-sh"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": true,
@@ -7529,6 +7980,38 @@
       "status": "audited",
       "strategy": "single"
     },
+    "phuryn/pm-skills": {
+      "artifacts": 120,
+      "audit_issue": 762,
+      "commit_sha_at_audit": "18468a95b427e70e258b51389796367c6f684e7d",
+      "description": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth.",
+      "discovered": "2026-08-05T02:07:37Z",
+      "exemplar_path": "auditor/exemplars/phuryn-pm-skills.md",
+      "exemplar_published": true,
+      "pipeline_prs": [],
+      "prs": [],
+      "rule_adopted": false,
+      "score": 92,
+      "security": "CLEAR",
+      "stars": 24853,
+      "status": "contributed",
+      "strategy": "progressive"
+    },
+    "plugin87/ux-ui-agent-skills": {
+      "artifacts": 26,
+      "audit_issue": 1153,
+      "commit_sha_at_audit": "f2e2f7fcc5cb9d99bbd8ec5e0d75cebb98e21e7e",
+      "description": "Turn Claude into a senior design architect - DTCG design tokens, 50 components, WCAG 2.2 AA to AAA, 138 design systems, any-framework code, and 38 objective gates that fail the build instead of claiming success. Install as a Claude Code plugin or with npx.",
+      "discovered": "2026-09-14T06:11:05Z",
+      "exemplar_path": "auditor/exemplars/plugin87-ux-ui-agent-skills.md",
+      "exemplar_published": true,
+      "prs": [],
+      "score": 98,
+      "security": "REVIEW",
+      "stars": 1258,
+      "status": "audited",
+      "strategy": "batched"
+    },
     "prompt-security/clawsec": {
       "artifacts": 17,
       "audit_issue": 513,
@@ -7808,6 +8291,8 @@
     "sangrokjung/claude-forge": {
       "artifacts": 89,
       "audit_issue": 71,
+      "case_study_skip_reason": "thin narrative: score=82, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False",
+      "case_study_skipped": true,
       "description": "Supercharge Claude Code with 11 AI agents, 36 commands & 15 skills — the claude-code plugin framework inspired by oh-my-zsh. 6-layer security hooks included. 5-min install.",
       "discovered": "2026-04-13T06:41:48Z",
       "pipeline_prs": [
@@ -7889,9 +8374,7 @@
       "security": "REVIEW",
       "stars": 648,
       "status": "complete",
-      "strategy": "progressive",
-      "case_study_skipped": true,
-      "case_study_skip_reason": "thin narrative: score=82, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"
+      "strategy": "progressive"
     },
     "santifer/career-ops": {
       "artifacts": 14,
@@ -8590,6 +9073,8 @@
     "timescale/pg-aiguide": {
       "artifacts": 8,
       "audit_issue": 75,
+      "case_study_skip_reason": "thin narrative: score=94, security=REVIEW, merged=0, applied_separately=0, rejected=1, rule_adopted=False",
+      "case_study_skipped": true,
       "description": "MCP server and Claude plugin for Postgres skills and documentation. Helps AI coding tools generate better PostgreSQL code.",
       "discovered": "2026-04-13T06:41:48Z",
       "exemplar_path": "auditor/exemplars/timescale-pg-aiguide.md",
@@ -8601,13 +9086,13 @@
       "prs": [
         {
           "number": 104,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-02T19:22:36Z",
           "title": "fix(security): escape SQL identifiers in migrate.ts and searchDocs.ts",
-          "updatedAt": "2026-04-20T12:43:58Z",
+          "updatedAt": "2026-09-02T19:22:36Z",
           "createdAt": "2026-04-20T12:36:32Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -8630,7 +9115,7 @@
       "score": 94,
       "security": "REVIEW",
       "stars": 1680,
-      "status": "contributed",
+      "status": "complete",
       "strategy": "single"
     },
     "tintinweb/pi-subagents": {
@@ -9522,6 +10007,19 @@
       "status": "tracked",
       "strategy": "progressive"
     },
+    "zenstory-ai/oh-story-claudecode": {
+      "artifacts": 57,
+      "audit_issue": 1154,
+      "commit_sha_at_audit": "4a50d5583590eb7f207037e35136c1168bc02201",
+      "description": "Claude Code / Codex / OpenCode agent skills for writing Chinese web novels (网文): 扫榜、拆文、写作、去AI味、封面全流程，长篇短篇都支持 | 13 skills for novel writing and long-form fiction with file-based continuity tracking. MIT.",
+      "discovered": "2026-09-14T06:11:05Z",
+      "prs": [],
+      "score": 89,
+      "security": "REVIEW",
+      "stars": 6845,
+      "status": "audited",
+      "strategy": "batched"
+    },
     "zhaoxuya520/reverse-skill": {
       "artifacts": 22,
       "audit_issue": 449,
@@ -9716,178 +10214,29 @@
       "status": "complete",
       "strategy": "single"
     },
-    "Shubhamsaboo/awesome-llm-apps": {
-      "discovered": "2026-08-05T02:07:37Z",
-      "stars": 130536,
-      "artifacts": 146,
-      "description": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
-      "status": "audited",
-      "score": 96,
-      "audit_issue": 757,
+    "tigerless-labs/autoharness": {
+      "discovered": "2026-10-05T06:15:43Z",
+      "stars": 7817,
+      "artifacts": 6,
+      "description": "Autoharness — a self-learning skill layer for Claude Code — distills skills from your real sessions, updates them as you work, and prunes the ones that stop getting used. No daemon, no benchmark.",
+      "status": "contributed",
+      "score": 87,
+      "audit_issue": 1390,
       "prs": [],
       "strategy": "single",
-      "security": "BLOCKED",
-      "commit_sha_at_audit": "779e9f9bcf87fa8cd95870a438b70b84e47d3173"
-    },
-    "calesthio/OpenMontage": {
-      "discovered": "2026-08-05T02:07:37Z",
-      "stars": 45129,
-      "artifacts": 627,
-      "description": "World's first open-source, agentic video production system. 12 production pipelines, 100+ tools, 700+ agent skill and production-knowledge files. Turn your AI coding assistant into a full video production studio.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 758,
-      "prs": []
-    },
-    "hoangsonww/Claude-Code-Agent-Monitor": {
-      "discovered": "2026-08-05T02:07:37Z",
-      "stars": 870,
-      "artifacts": 131,
-      "description": "🚀 A real-time monitoring dashboard for Claude Code & Codex, built with SQLite3, Node.js, Express, React, Vite, TailwindCSS, & WebSockets. It tracks sessions, agent activity, tool usage, and subagent orchestration, providing live analytics, a Kanban status board, status notifications, a cute buddy, & an interactive web UI/MacOS/Windows native app.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 759,
-      "prs": []
-    },
-    "indranilbanerjee/digital-marketing-pro": {
-      "discovered": "2026-08-05T02:07:37Z",
-      "stars": 705,
-      "artifacts": 203,
-      "description": "Open-source AI marketing plugin for agencies & in-house teams — 158 skills, 25 specialist agents, 12-Part Strategy Flow, Cowork team-persistent, EU AI Act Article 50 ready, 6-platform AEO/GEO incl. Google AI Mode. Installs on Claude Code, Cowork, Codex, Cursor, Copilot CLI, Antigravity. MIT-licensed.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 760,
-      "prs": []
-    },
-    "microsoft/skills": {
-      "discovered": "2026-08-05T02:07:37Z",
-      "stars": 2861,
-      "artifacts": 226,
-      "description": "Skills, MCP servers, Custom Agents, Agents.md for SDKs to ground Coding Agents",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 761,
-      "prs": []
-    },
-    "phuryn/pm-skills": {
-      "discovered": "2026-08-05T02:07:37Z",
-      "stars": 24853,
-      "artifacts": 120,
-      "description": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 762,
-      "prs": []
-    },
-    "Vincentwei1021/video-shotcraft": {
-      "status": "tracked",
-      "score": 100,
-      "strategy": "single",
-      "security": "REVIEW",
-      "commit_sha_at_audit": "0022ec45d28800cecb5b16624a3179093c93f4e9",
-      "pipeline_prs": [
-        30
-      ],
-      "prs": [
-        {
-          "number": 30,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-08-09T09:53:10Z",
-          "title": "fix: escape media.url in gallery data-src attributes",
-          "updatedAt": "2026-08-09T09:53:10Z",
-          "createdAt": "2026-08-07T12:19:47Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:fe9bcce17b04db042b1843e383c797e9f8c507d99e5377e649272db1bbf664c5",
-            "sha256:feb1039c429e3ace708ddb25e1cb7d9238d2c588b33843a9785be78a245d7a57"
-          ],
-          "rule_ids": [
-            "SEC-unescaped-attribute-interpolation",
-            "SEC-unescaped-attribute-interpolation"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
-      "rule_adopted": false,
-      "case_study_candidate": true
-    },
-    "elementalsouls/Claude-OSINT": {
-      "discovered": "2026-08-10T06:26:33Z",
-      "stars": 2257,
-      "artifacts": 10,
-      "description": "8 Claude skills · 100+ recon capabilities · 80 secret-regex patterns · 80+ dorks · 9 read-only credential validators · 27 attack-path templates · ~10,000 lines of structured tradecraft. Drop-in SKILL.md files that turn Claude into a god-mode external recon operator for authorized red-team and bug-bounty engagements.",
-      "status": "audited",
-      "score": 97,
-      "audit_issue": 827,
-      "prs": [],
-      "strategy": "single",
-      "security": "REVIEW",
-      "commit_sha_at_audit": "7d1516291f24a48696a1db7f86ecb15c75249754",
-      "exemplar_published": true,
-      "exemplar_path": "auditor/exemplars/elementalsouls-Claude-OSINT.md"
-    },
-    "deepseek-ai/deepseek-harness": {
-      "artifacts": 28,
-      "commit_sha_at_audit": "47f943859bef60e4160492346772ded9b24f765a",
-      "description": "DeepSeek Harness: Everything is a Plugin.",
-      "discovered": "2026-08-14T00:00:00Z",
-      "discovery_strategy": "manual-request",
-      "prs": [],
-      "score": 97,
       "security": "CLEAR",
-      "stars": 60382,
-      "status": "audited",
-      "strategy": "batched"
+      "commit_sha_at_audit": "6bf36182dcdb95a55bc8fd8b522ce845f855cbc6",
+      "pipeline_prs": [],
+      "rule_adopted": false
     },
-    "ccch1mneyyy/dsh-TUI": {
-      "discovered": "2026-08-17T06:09:36Z",
-      "stars": 1667,
-      "artifacts": 7,
-      "description": "DSH 官方公众号收录的 TUI 补位插件：Claude Code 风，鲸鱼顶栏/实时状态/流式思考/双击 Esc 回滚/上下文进度+TPS。npm 一键装。  DSH official WeChat featured TUI plugin — Claude Code style: whale bar, live status, streaming thoughts, double-Esc rollback, context bar + TPS. npm one-click.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 904,
-      "prs": []
-    },
-    "microsoft/power-platform-skills": {
-      "discovered": "2026-08-17T06:09:36Z",
-      "stars": 710,
-      "artifacts": 127,
-      "description": "A plugin marketplace for Claude Code/GitHub Copilot that provides Power Platform development plugins, including reusable skills, agents, and commands for building and deploying solutions.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 905,
-      "prs": []
-    },
-    "ayghri/i-have-adhd": {
-      "discovered": "2026-08-24T06:12:16Z",
-      "stars": 23537,
+    "EpicGames/unreal-engine-skills-for-claude-code-plugin": {
+      "discovered": "2026-10-12T06:15:04Z",
+      "stars": 513,
       "artifacts": 5,
-      "description": "A skill to stop your coding agent from burying the answer. ADHD-friendly output.",
+      "description": "",
       "status": "discovered",
       "score": null,
-      "audit_issue": 967,
-      "prs": []
-    },
-    "danny-avila/LibreChat": {
-      "discovered": "2026-08-24T06:12:16Z",
-      "stars": 42381,
-      "artifacts": 5,
-      "description": "Enhanced ChatGPT Clone: Features Agents, MCP, Skills, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 968,
-      "prs": []
-    },
-    "TencentCloud/TencentDB-Agent-Memory": {
-      "discovered": "2026-08-31T06:11:05Z",
-      "stars": 25310,
-      "artifacts": 18,
-      "description": "TencentDB Agent Memory is a team-level memory hub for AI Agents — turning conversations, docs, and code into four reusable memory assets (Chat Memory, Skill, LLM-Wiki, Code-Graph) that are governed, shared, and equipped across agents and frameworks.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 1026,
+      "audit_issue": 1453,
       "prs": []
     }
   }

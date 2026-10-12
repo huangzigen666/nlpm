@@ -14,9 +14,27 @@
 #   that rebases every DIRTY bot PR onto latest main using the shared
 #   per-file resolver, then force-pushes so auto-merge resumes.
 #
+#   It also merges bot PRs that are already mergeable (CLEAN). Auto-merge
+#   is disabled on xiaolai/nlpm (allow_auto_merge=false), so a bot PR that
+#   commit-via-pr.sh could not merge inside its watch window — or that this
+#   sweep just rebased — otherwise stays open forever. Observed 2026-09-30:
+#   19 CLEAN bot PRs open, the oldest from 2026-08-05, i.e. audit, track and
+#   contribute output that never reached main. Only PRs younger than
+#   UNSTICK_MERGE_MAX_AGE_HOURS (default 48) are merged: an older PR's
+#   snapshot of shared state (registry statuses, track counts) may have been
+#   superseded by later commits in ways git cannot see as a conflict, so
+#   merging it is a human decision. Those are listed as a warning instead.
+#
+#   Before any of that, it opens the PR for a pushed auditor/bot/ branch
+#   that never got one (the run died between `git push` and `gh pr create`),
+#   under the same age limit; see the section below for the rules.
+#
 # Required environment (set by Actions):
 #   GITHUB_REPOSITORY
 #   PAT_TOKEN (preferred) or GH_TOKEN — repo token for gh + push.
+# Optional:
+#   UNSTICK_MERGE_MAX_AGE_HOURS — merge CLEAN bot PRs up to this age (48).
+#   UNSTICK_UNKNOWN_WAIT_SECS   — pause before each re-check of an UNKNOWN merge state (5).
 #
 # Usage:
 #   bash auditor/scripts/unstick-bot-prs.sh
@@ -39,11 +57,152 @@ git config user.email "nlpm-auditor[bot]@users.noreply.github.com"
 git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 git fetch origin main
 
-# Open auditor-bot PRs that conflict with main, "<number> <branch>" per line.
-mapfile -t PRS < <(GH_TOKEN="$TOKEN" gh pr list \
-  --repo "$GITHUB_REPOSITORY" --label auditor-bot --state open --limit 100 \
-  --json number,headRefName,mergeStateStatus \
-  --jq '.[] | select(.mergeStateStatus == "DIRTY") | "\(.number) \(.headRefName)"')
+MAX_AGE_HOURS="${UNSTICK_MERGE_MAX_AGE_HOURS:-48}"
+case "$MAX_AGE_HOURS" in
+  ''|*[!0-9]*) echo "::error::UNSTICK_MERGE_MAX_AGE_HOURS must be a whole number of hours" >&2; exit 1 ;;
+esac
+
+# --- open a PR for any bot branch that has none -----------------------------
+# commit-via-pr.sh pushes the branch, then opens the PR. When opening fails
+# (the June-September OAuth outage; HTTP 502/504 at 2026-09-30 12:16, before
+# open-bot-pr.sh adopted half-created PRs) the run dies with its output on a
+# branch no PR points at. Nothing merges it, and every pass below selects
+# PRs, so none of them sees it: seven branches from that one batch held four
+# audits, two exemplars and a contribute record that never reached main
+# (recovered by hand in #1323).
+# Branches come from this repository's own refs, so each was pushed by
+# someone with write access, the same trust boundary as the
+# isCrossRepository filter below. Only a branch with commits not on main
+# counts (a merged PR's branch has none), and a branch with ANY PR (open,
+# merged or closed) is skipped, since a closed PR was a decision. A branch
+# whose tip is younger than MAX_AGE_HOURS gets a PR, opened through the
+# same helper commit-via-pr.sh uses; the passes below then merge or rebase
+# it in this same sweep. An older one is reported instead, for the reason
+# old CLEAN PRs are: its snapshot of shared state may be superseded.
+source auditor/scripts/open-bot-pr.sh
+if ! BOT_REFS=$(git ls-remote --heads origin 'auditor/bot/*'); then
+  echo "::error::unstick-bot-prs: could not list auditor/bot/ branches" >&2
+  exit 1
+fi
+if [ -n "$BOT_REFS" ] && ! git fetch --quiet origin '+refs/heads/auditor/bot/*:refs/remotes/origin/auditor/bot/*'; then
+  echo "::error::unstick-bot-prs: could not fetch auditor/bot/ branches" >&2
+  exit 1
+fi
+NOW=$(date +%s)
+opened=0
+orphans_old=()
+while read -r _SHA REF; do
+  [ -z "${REF:-}" ] && continue
+  BRANCH="${REF#refs/heads/}"
+  [ "$(git rev-list --count "origin/main..origin/$BRANCH")" -gt 0 ] || continue
+  if ! HAS_PR=$(GH_TOKEN="$TOKEN" gh pr list --repo "$GITHUB_REPOSITORY" \
+      --head "$BRANCH" --state all --json number --jq '.[0].number // empty'); then
+    echo "::warning::unstick-bot-prs: could not look up PRs for $BRANCH; the next sweep retries"
+    continue
+  fi
+  [ -n "$HAS_PR" ] && continue
+  AGE=$(( (NOW - $(git log -1 --format=%ct "origin/$BRANCH")) / 3600 ))
+  if [ "$AGE" -ge "$MAX_AGE_HOURS" ]; then
+    orphans_old+=("$BRANCH (${AGE}h)")
+    continue
+  fi
+  RUN_PART="${BRANCH#auditor/bot/*/}"
+  RUN_ID="${RUN_PART%%-*}"
+  BODY=$(printf 'Automated bot commit from run [%s](https://github.com/%s/actions/runs/%s). The run pushed this branch but never opened its PR; `auditor/scripts/unstick-bot-prs.sh` opened it.\n\nMerged via the auditor PR-flow (see `auditor/scripts/commit-via-pr.sh`).' \
+         "$RUN_ID" "$GITHUB_REPOSITORY" "$RUN_ID")
+  if open_bot_pr "$BRANCH" "$(git log -1 --format=%s "origin/$BRANCH")" "$BODY"; then
+    echo "unstick-bot-prs: opened $PR_URL for bot branch $BRANCH, which had no PR"
+    opened=$((opened + 1))
+  else
+    echo "::warning::unstick-bot-prs: could not open a PR for bot branch $BRANCH; the next sweep retries"
+  fi
+done <<< "$BOT_REFS"
+echo "unstick-bot-prs: opened ${opened} PR(s) for bot branches that had none"
+if [ "${#orphans_old[@]}" -gt 0 ]; then
+  echo "::warning::unstick-bot-prs: ${#orphans_old[@]} bot branch(es) with commits not on main, no PR, and older than ${MAX_AGE_HOURS}h left for a human (their state snapshot may be superseded): ${orphans_old[*]}"
+fi
+
+# One snapshot of every open bot PR:
+# "<number> <branch> <mergeStateStatus> <age in whole hours> <labelled 1|0>".
+# Bot PRs are selected by their auditor/bot/ branch, not by the auditor-bot
+# label: a PR whose create call failed after opening it has no label (#1311,
+# #1312), and filtering on the label hid it from every sweep.
+# The branch must live in THIS repository (isCrossRepository == false).
+# Anyone can open a PR from a fork branch they name auditor/bot/…; this
+# script labels and merges what it selects, so a branch-name match alone
+# would let an outside PR be merged. Pushing a branch here needs write
+# access, which is the trust boundary.
+# Fail loud if the listing itself fails — an empty list must mean "no PRs",
+# never "gh errored".
+if ! OPEN_PRS=$(GH_TOKEN="$TOKEN" gh pr list \
+  --repo "$GITHUB_REPOSITORY" --state open --limit 200 \
+  --json number,headRefName,mergeStateStatus,createdAt,labels,isCrossRepository \
+  --jq '.[] | select(.isCrossRepository == false and (.headRefName | startswith("auditor/bot/"))) | "\(.number) \(.headRefName) \(.mergeStateStatus) \(((now - (.createdAt | fromdateiso8601)) / 3600) | floor) \(if any(.labels[]; .name == "auditor-bot") then 1 else 0 end)"'); then
+  echo "::error::unstick-bot-prs: could not list auditor-bot PRs" >&2
+  exit 1
+fi
+
+# --- label bot PRs that lost their label ------------------------------------
+while read -r NUM _BRANCH _STATE _AGE LABELLED; do
+  [ -z "${NUM:-}" ] && continue
+  [ "$LABELLED" = "1" ] && continue
+  # REST, not `gh pr edit` (it needs read:org for reviewer logins and fails).
+  if GH_TOKEN="$TOKEN" gh api --silent -X POST "repos/${GITHUB_REPOSITORY}/issues/${NUM}/labels" -f "labels[]=auditor-bot"; then
+    echo "unstick-bot-prs: labelled unlabelled bot PR #$NUM"
+  else
+    echo "::warning::unstick-bot-prs: could not label bot PR #$NUM"
+  fi
+done <<< "$OPEN_PRS"
+
+# --- resolve UNKNOWN merge states ------------------------------------------
+# After main moves, GitHub recomputes every open PR's mergeability and
+# `gh pr list` reports UNKNOWN until that finishes. A sweep shortly after a
+# merge would otherwise skip every PR (the 2026-09-30 09:51 sweep merged none
+# of four CLEAN ones). Asking for one PR's state starts its computation, so
+# re-query each UNKNOWN one a few times before giving up on it for this sweep.
+UNKNOWN_WAIT_SECS="${UNSTICK_UNKNOWN_WAIT_SECS:-5}"
+resolved=""
+while read -r NUM BRANCH STATE AGE LABELLED; do
+  [ -z "${NUM:-}" ] && continue
+  tries=0
+  while [ "$STATE" = "UNKNOWN" ] && [ "$tries" -lt 3 ]; do
+    sleep "$UNKNOWN_WAIT_SECS"
+    STATE=$(GH_TOKEN="$TOKEN" gh pr view "$NUM" --repo "$GITHUB_REPOSITORY" \
+      --json mergeStateStatus --jq .mergeStateStatus) || STATE=UNKNOWN
+    tries=$((tries + 1))
+  done
+  [ "$STATE" = "UNKNOWN" ] && echo "  #$NUM merge state still UNKNOWN after $tries re-checks; the next sweep retries"
+  resolved+="$NUM $BRANCH $STATE $AGE $LABELLED"$'\n'
+done <<< "$OPEN_PRS"
+OPEN_PRS="$resolved"
+
+# --- merge bot PRs that are already mergeable ---------------------------
+merged=0
+stale=()
+while read -r NUM _BRANCH STATE AGE _LABELLED; do
+  [ -z "${NUM:-}" ] && continue
+  case "$STATE" in CLEAN|HAS_HOOKS) ;; *) continue ;; esac
+  if [ "$AGE" -ge "$MAX_AGE_HOURS" ]; then
+    stale+=("#$NUM (${AGE}h)")
+    continue
+  fi
+  # A sibling merged earlier in this loop can make this one conflict;
+  # GitHub then refuses the merge and the next sweep rebases it.
+  if GH_TOKEN="$TOKEN" gh pr merge "$NUM" --repo "$GITHUB_REPOSITORY" --merge; then
+    echo "unstick-bot-prs: merged mergeable PR #$NUM"
+    merged=$((merged + 1))
+  else
+    echo "  could not merge #$NUM yet; the next sweep retries"
+  fi
+done <<< "$OPEN_PRS"
+echo "unstick-bot-prs: merged ${merged} mergeable bot PR(s)"
+if [ "${#stale[@]}" -gt 0 ]; then
+  echo "::warning::unstick-bot-prs: ${#stale[@]} mergeable bot PR(s) older than ${MAX_AGE_HOURS}h left for a human (their state snapshot may be superseded): ${stale[*]}"
+fi
+
+# --- rebase bot PRs that conflict with main -----------------------------
+# "<number> <branch>" per line.
+mapfile -t PRS < <(awk '$3 == "DIRTY" { print $1, $2 }' <<< "$OPEN_PRS")
 
 if [ "${#PRS[@]}" -eq 0 ]; then
   echo "unstick-bot-prs: no conflicting auditor-bot PRs"

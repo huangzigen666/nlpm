@@ -1,6 +1,6 @@
 ---
 name: rules
-description: The 50 rules of natural language programming. Loaded when writing, reviewing, or improving any NL artifact — skills, agents, commands, rules, hooks, prompts, plugins, and the project memory file (CLAUDE.md / AGENTS.md / GEMINI.md). The definitive style guide for NL code quality.
+description: "The 50 NL programming rules (R01-R50) for skills, agents, commands, hooks, prompts."
 metadata:
   version: 0.2.0
 ---
@@ -8,6 +8,8 @@ metadata:
 # The Rules of Natural Language Programming
 
 > These rules govern how to write NL artifacts that Claude Code and other LLMs consume. They are enforced by `/nlpm:score` (penalty-based) and referenced by `/nlpm:fix` (auto-repair). When writing any NL artifact, follow these rules.
+>
+> **Notation:** `$+ARGUMENTS` and `$+{CLAUDE_PLUGIN_ROOT}` in this file are Claude Code's argument token and plugin-root variable, split by a `+` so Claude Code does not replace them when it loads this skill; the real tokens have no `+` (`nlpm:conventions-claude` §2.4).
 
 ---
 
@@ -74,10 +76,38 @@ Mention versus use: a vague term presented as a literal token that the clause ex
 
 ## Agents
 
-**R09. `<example>` blocks are mandatory.** Minimum 2. Each: Context (what user is doing) + user message + assistant response. Without them, triggering is unreliable.
+**R09. `<example>` blocks are mandatory; one well-chosen example plus an exclusion is enough.** At least one `<example>` in the description — Context (what user is doing) + user message + assistant response — and one sentence naming what the agent is NOT for ("Not for …" / "Do not use …", or an example where the assistant declines or routes elsewhere). Keep the whole description ≤1,200 characters. The description sits in the Agent tool's text on every turn and is the only thing Claude sees when choosing an agent: examples stay in the description (moved into the body, they are invisible to routing), and each extra example costs always-on context.
 
-Bad: `<example>\nContext: User needs help\nuser: "help me"\nassistant: "I'll help."\n</example>`
-Good: `<example>\nContext: Developer refactoring auth module before PR\nuser: "Check if the auth changes have any security vulnerabilities before I merge"\nassistant: "I'll dispatch the security-reviewer to audit the auth changes for vulnerabilities."\n</example>`
+Bad (two vague examples, no boundary):
+
+```yaml
+description: |
+  Reviews code.
+  <example>
+  Context: User needs help
+  user: "help me"
+  assistant: "I'll help."
+  </example>
+  <example>
+  Context: User needs help again
+  user: "help me more"
+  assistant: "I'll help."
+  </example>
+```
+
+Good (one specific example, an explicit exclusion, every description line indented inside the `|` block):
+
+```yaml
+description: |
+  Audits auth changes for security vulnerabilities before merge. Not for general style review; use code-reviewer.
+  <example>
+  Context: Developer refactoring auth module before PR
+  user: "Check if the auth changes have any security vulnerabilities before I merge"
+  assistant: "I'll dispatch the security-reviewer to audit the auth changes for vulnerabilities."
+  </example>
+model: sonnet
+tools: Read, Grep, Glob
+```
 
 <!-- nlpm-exemplar-citation:begin -->
 > Real-world example: [data-goblin-power-bi-agentic-development](../../../auditor/exemplars/data-goblin-power-bi-agentic-development.md), [matt1398-claude-devtools](../../../auditor/exemplars/matt1398-claude-devtools.md), [nicknisi-claude-plugins](../../../auditor/exemplars/nicknisi-claude-plugins.md), [ooiyeefei-ccc](../../../auditor/exemplars/ooiyeefei-ccc.md), [xiaolai-codex-toolkit-for-claude](../../../auditor/exemplars/xiaolai-codex-toolkit-for-claude.md), [xiaolai-grill-for-claude](../../../auditor/exemplars/xiaolai-grill-for-claude.md)
@@ -117,7 +147,7 @@ Good: `<example>\nContext: Developer refactoring auth module before PR\nuser: "C
 > Real-world example: [BayramAnnakov-claude-reflect](../../../auditor/exemplars/BayramAnnakov-claude-reflect.md), [SukinShetty-Nemp-memory](../../../auditor/exemplars/SukinShetty-Nemp-memory.md), [TheDecipherist-claude-code-mastery](../../../auditor/exemplars/TheDecipherist-claude-code-mastery.md), [gemini-cli-extensions-conductor](../../../auditor/exemplars/gemini-cli-extensions-conductor.md), [jarrodwatts-claude-hud](../../../auditor/exemplars/jarrodwatts-claude-hud.md), [karpathy-autoresearch](../../../auditor/exemplars/karpathy-autoresearch.md), [mattpocock-skills](../../../auditor/exemplars/mattpocock-skills.md), [nicknisi-claude-plugins](../../../auditor/exemplars/nicknisi-claude-plugins.md), [uppinote20-claude-dashboard](../../../auditor/exemplars/uppinote20-claude-dashboard.md)
 <!-- nlpm-exemplar-citation:end -->
 
-**R15. Handle empty input.** What happens when `$ARGUMENTS` is blank? Default behavior or clear error.
+**R15. Handle empty input.** What happens when `$+ARGUMENTS` is blank? Default behavior or clear error.
 
 <!-- nlpm-exemplar-citation:begin -->
 > Real-world example: [BayramAnnakov-claude-reflect](../../../auditor/exemplars/BayramAnnakov-claude-reflect.md), [SukinShetty-Nemp-memory](../../../auditor/exemplars/SukinShetty-Nemp-memory.md), [agenticnotetaking-arscontexta](../../../auditor/exemplars/agenticnotetaking-arscontexta.md), [karpathy-autoresearch](../../../auditor/exemplars/karpathy-autoresearch.md), [taishi-i-awesome-japanese-nlp-resources](../../../auditor/exemplars/taishi-i-awesome-japanese-nlp-resources.md), [uppinote20-claude-dashboard](../../../auditor/exemplars/uppinote20-claude-dashboard.md)
@@ -196,7 +226,7 @@ Good: `**Use specific types instead of any.** Without specific types, TypeScript
 
 **R29. Referenced scripts must exist.** A hook pointing to a missing script silently fails.
 
-**R30. Use `${CLAUDE_PLUGIN_ROOT}` for paths.** Never hardcode absolute paths. They break on other machines.
+**R30. Use `$+{CLAUDE_PLUGIN_ROOT}` for paths.** Never hardcode absolute paths. They break on other machines.
 
 <!-- nlpm-exemplar-citation:begin -->
 > Real-world example: [AgriciDaniel-claude-seo](../../../auditor/exemplars/AgriciDaniel-claude-seo.md), [BayramAnnakov-claude-reflect](../../../auditor/exemplars/BayramAnnakov-claude-reflect.md), [CloudAI-X-claude-workflow-v2](../../../auditor/exemplars/CloudAI-X-claude-workflow-v2.md), [MemPalace-mempalace](../../../auditor/exemplars/MemPalace-mempalace.md), [SukinShetty-Nemp-memory](../../../auditor/exemplars/SukinShetty-Nemp-memory.md), [agenticnotetaking-arscontexta](../../../auditor/exemplars/agenticnotetaking-arscontexta.md), [alexgreensh-token-optimizer](../../../auditor/exemplars/alexgreensh-token-optimizer.md), [data-goblin-power-bi-agentic-development](../../../auditor/exemplars/data-goblin-power-bi-agentic-development.md), [fivetaku-fablize](../../../auditor/exemplars/fivetaku-fablize.md), [jnMetaCode-superpowers-zh](../../../auditor/exemplars/jnMetaCode-superpowers-zh.md), [mem0ai-mem0](../../../auditor/exemplars/mem0ai-mem0.md), [nicknisi-claude-plugins](../../../auditor/exemplars/nicknisi-claude-plugins.md), [openai-codex-plugin-cc](../../../auditor/exemplars/openai-codex-plugin-cc.md), [tanweai-pua](../../../auditor/exemplars/tanweai-pua.md), [viticci-shortcuts-playground-plugin](../../../auditor/exemplars/viticci-shortcuts-playground-plugin.md), [xiaolai-codex-toolkit-for-claude](../../../auditor/exemplars/xiaolai-codex-toolkit-for-claude.md)
@@ -316,7 +346,7 @@ Good: `**Use specific types instead of any.** Without specific types, TypeScript
 
 **R48. `name` is the only required manifest field.** Version and description are recommended but optional.
 
-**R49. CLAUDE.md for Claude, README for humans.** CLAUDE.md: architecture, conventions, component map. README: installation, usage, features.
+**R49. AGENTS.md for the agent, README for humans.** AGENTS.md (or `CLAUDE.md` on Claude Code before 2.1.277): architecture, conventions, component map. README: installation, usage, features.
 
 <!-- nlpm-exemplar-citation:begin -->
 > Real-world example: [2389-research-simmer](../../../auditor/exemplars/2389-research-simmer.md), [JuliusBrussee-caveman](../../../auditor/exemplars/JuliusBrussee-caveman.md), [forrestchang-andrej-karpathy-skills](../../../auditor/exemplars/forrestchang-andrej-karpathy-skills.md), [jarrodwatts-claude-hud](../../../auditor/exemplars/jarrodwatts-claude-hud.md), [multica-ai-andrej-karpathy-skills](../../../auditor/exemplars/multica-ai-andrej-karpathy-skills.md)
@@ -370,13 +400,13 @@ Each rule earns its place via one of the four warrant types from `analysis/vocab
 | R06 | domain | Pseudocode fails differently from real syntax |
 | R07 | structural | Without scope notes, Claude cannot disambiguate between related skills |
 | R08 | domain | LLMs apply concrete patterns more reliably than abstractions |
-| R09 | structural | Claude Code reads `<example>` blocks to trigger agents |
+| R09 | structural | Claude Code reads the agent description — `<example>` blocks and exclusions — on every turn to choose an agent |
 | R10 | domain | Wrong model tier wastes money or weakens output |
 | R11 | domain | Excess tool permissions are a security smell |
 | R12 | structural | Without a defined output format, variance breaks downstream parsers |
 | R13 | literary | Codifies the pattern observed in well-written agents |
 | R14 | literary | Codifies the numbered-step pattern in well-written commands |
-| R15 | domain | Crashes on blank `$ARGUMENTS` |
+| R15 | domain | Crashes on blank `$+ARGUMENTS` |
 | R16 | structural | Same as R12 for commands |
 | R17 | domain | Silent error propagation |
 | R18 | structural | Claude Code uses `argument-hint` in `/help` |
@@ -410,7 +440,7 @@ Each rule earns its place via one of the four warrant types from `analysis/vocab
 | R46 | literary | Codifies the state-file-for-resumability pattern |
 | R47 | domain | Infinite-loop retry on failing QC |
 | R48 | structural | Claude Code manifest schema requires only `name` |
-| R49 | structural | CLAUDE.md and README serve different audiences |
+| R49 | structural | AGENTS.md (or CLAUDE.md) and README serve different audiences |
 | R50 | domain | Version-drift between manifest, marketplace, and README |
 | R51 | domain | Multi-author NL plugins drift terminology across artifacts within weeks; without an enforceable rule, the same concept accretes 2–4 names (linter/scorer/analyzer/validator) and consumers can't predict which fires |
 

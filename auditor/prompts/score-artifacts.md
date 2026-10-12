@@ -54,8 +54,10 @@ Score each file on a 100-point scale. Start at 100, subtract penalties:
 - Missing required frontmatter (`name`, `description`): -25 each
 - **SKILL.md only** — `name` field MUST match the parent directory name
   (per agentskills.io spec); mismatch is a bug not a quality issue: -25
-- Missing `<example>` blocks on **agents**: -15 (zero) or -5 (one) — rule_id R09
-- Missing `<example>` blocks on **user_invocable: true skills**: -10 — rule_id R06
+- Missing `<example>` blocks on **agents**: -15 (zero; one block is full credit) — rule_id R09
+- Agent description names no situation the agent is not for (no "Not for …"/"Do not use …" sentence and no declining/routing example): -5 — rule_id R09
+- Agent description value over 1,200 characters, examples included: -5 — rule_id R09
+- Missing `<example>` blocks on **user-invocable skills** (`user-invocable` absent or `true`): -10 — rule_id R06
 - Description length on **skills**: -5 if 500–800 chars, -10 if >800 chars — rule_id R04
 - Model not declared on agents: -5
 - **Commands only** — Missing output format: -10
@@ -72,14 +74,16 @@ Score each file on a 100-point scale. Start at 100, subtract penalties:
 **Rule-ID discipline (strict, enforced by validate-rule-ids.py in CI):**
 
 Every NL-quality finding's `rule_id` must come from the table in
-`skills/nlpm/scoring/SKILL.md` for the artifact's type. Do NOT:
+`skills/nlpm/scoring/SKILL.md` for the artifact's type, or from the
+`skills/nlpm/scoring/references/` file that SKILL.md's Penalty Tables index
+names for Codex, Antigravity, memory-file and workflow-program artifacts. Do NOT:
 
 - Apply agent rules (R09–R13) to skills. Skills use R04–R07.
 - Reuse R07 ("scope note") for example-block findings — that is R06 for skills,
   R09 for agents. The 2026-05-13 ljg-skills audit mislabeled this 14 times.
-- Invent new R-numbers beyond R01–R50.
+- Invent new R-numbers beyond R01–R51.
 - Apply the -15 agents-example penalty to skills. The skills penalty for zero
-  examples on a user_invocable skill is -10, label R06.
+  examples on a user-invocable skill is -10, label R06.
 
 If a finding doesn't map cleanly to a documented rule, label it `UNCLASSIFIED`
 in the JSONL sidecar and explain in the report's quality issues table — never
@@ -114,12 +118,13 @@ agent — `agents/scorer.md`):
    in plugin.json; inline `hooks:` / `skills:` arrays in plugin.json;
    `tools:` on reference-only skills; `commentary:` tags in agent examples;
    **`name:` on commands** — Claude Code commands register by filename;
-   `description:` is the only required command field per
-   `skills/nlpm/conventions/` §2. Primary-source citation:
-   <https://code.claude.com/docs/en/slash-commands> — "the `name` field
+   `description:` is the only recommended command field per
+   `skills/nlpm/conventions-claude/` §2.1. Primary source:
+   <https://code.claude.com/docs/en/skills>. Its retired predecessor,
+   the `slash-commands` page, said "the `name` field
    is explicitly optional, and Claude Code falls back to the filename
    (or the enclosing directory for SKILL.md-style layouts) when it's
-   omitted." Maintainer Jeffallan cited this URL when merging
+   omitted." Maintainer Jeffallan cited that page when merging
    Jeffallan/claude-skills#184 (2026-05-07) and noted that pre-v0.7.15
    audits flagged this incorrectly. The v0.7.15 fix is correct; this
    citation is preserved so the rule doesn't regress.

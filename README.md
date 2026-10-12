@@ -6,7 +6,7 @@ Natural-Language Programming Manager — score, check, fix, and test NL artifact
 
 Part of the [xiaolai plugin marketplace](https://github.com/xiaolai/claude-plugin-marketplace).
 
-NLPM is the only multi-tool NL artifact validator that systematically checks **manifest-vs-disk consistency** — the bug class where a SKILL.md exists on disk but is silently missing from `plugin.json` (and therefore invisible after `claude plugin install`). Verified across 8+ tools including Anthropic's official `plugin-validator` and the Linux Foundation's `skills-ref`. See [`analysis/ecosystem-gap.md`](analysis/ecosystem-gap.md) for the research.
+NLPM includes multi-tool validation that checks **manifest-vs-disk consistency** — the bug class where a SKILL.md exists on disk but is silently missing from `plugin.json` (and therefore invisible after `claude plugin install`). Verified across 8+ tools including Anthropic's official `plugin-validator` and the Linux Foundation's `skills-ref`. See [`analysis/ecosystem-gap.md`](analysis/ecosystem-gap.md) for the research.
 
 ## What it does
 
@@ -119,7 +119,7 @@ Scores start at 100 and go down. Every issue has a fixed penalty. The score is d
 
 Default pass threshold: 70. Configure in `.claude/nlpm.local.md`.
 
-See `skills/nlpm/scoring/SKILL.md` for the full penalty tables. See `skills/nlpm/rules/SKILL.md` for the 50 Rules of Natural Language Programming.
+See `skills/nlpm/scoring/SKILL.md` for the full penalty tables (the Codex, Antigravity, memory-file and workflow-program tables are in `skills/nlpm/scoring/references/`, indexed from SKILL.md). See `skills/nlpm/rules/SKILL.md` for the 50 Rules of Natural Language Programming.
 
 ## What it scores
 
@@ -156,7 +156,7 @@ Create `.claude/nlpm.local.md` (or run `/nlpm:init`):
 strictness: standard
 score_threshold: 70
 rule_overrides:
-  R09: { min_examples: 1 }      # require only 1 example block
+  R09: { min_examples: 2 }      # restore the stricter two-example bar
   R05: { threshold: 600 }       # allow skills up to 600 lines
   R23: { budget: 800 }          # increase rules budget
 ---
@@ -247,6 +247,9 @@ templates/          Drop-in author templates
 
 docs/
   for-authors.md    Full guide for plugin/skill authors
+  architecture.md   Per-component inventory (commands, agents, skills, hooks)
+  auditor.md        Auditor pipeline reference (workflows, data, gates, scripts)
+  site.md           nlpm.com site reference (pages, build, deploy workflows)
 
 analysis/
   ecosystem-gap.md                  Why this validator exists (stable ref)
@@ -335,3 +338,10 @@ See [auditor/README.md](auditor/README.md) for the full pipeline documentation a
 ## License
 
 ISC
+
+## Native validation and behavioral evidence
+
+Run Claude's current `plugin validate --strict` alongside NLPM, then native `plugin eval --no-publish`
+for behavior with and without the plugin. Manifest consistency, rubric scores and observed behavior are
+separate evidence. A 100-point score is not a runtime guarantee. Revisit ecosystem comparisons when
+the host validator changes; the linked gap analysis records its research date, not perpetual exclusivity.

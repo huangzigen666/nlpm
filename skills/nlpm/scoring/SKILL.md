@@ -1,7 +1,8 @@
 ---
 name: scoring
-description: "Use when scoring NL artifact quality, applying penalties, or calibrating lint judgment — contains the 100-point rubric with penalty tables per artifact type. Four worked calibration examples (Excellent Agent / Rewrite Agent / Excellent Rule / Weak Rule) live in `references/calibration-examples.md`, loaded on demand when anchoring borderline cases."
-version: 0.3.1
+description: "100-point NL artifact rubric: penalty tables per artifact type, calibration cases."
+version: 0.4.0
+user-invocable: false
 ---
 
 # NLPM Quality Scoring Rubric
@@ -24,6 +25,16 @@ Penalties stack. The floor is 0; the ceiling is 100. No bonuses — the default 
 
 ## Penalty Tables
 
+The tables in this file cover every artifact type a Claude Code project contains. Tables for the remaining artifact types live in `references/`, one file per group. When the artifact you are scoring is listed below, Read that file and apply its tables as if they appeared here — they carry the same weight, and a finding cited to one of their rows is a rubric finding.
+
+| Artifact being scored | Read |
+|---|---|
+| Codex hook events; `.codex-plugin/plugin.json`; `.agents/plugins/marketplace.json`; `agents/openai.yaml`; `.codex/config.toml` | [`references/codex.md`](references/codex.md) |
+| Antigravity / Gemini-lineage hook events; `gemini-extension.json`; `.gemini/commands/*.toml` | [`references/antigravity.md`](references/antigravity.md) |
+| Memory files (`~/.claude/projects/*/memory/*.md`); agent workflow programs (project-root `program.md`-style files) | [`references/memory-and-workflow.md`](references/memory-and-workflow.md) |
+
+The universal Hooks checks below apply to Codex and Antigravity hook configs too.
+
 ### Skills
 
 | Rule | Check | Condition | Penalty |
@@ -38,7 +49,7 @@ Penalties stack. The floor is 0; the ceiling is 100. No bonuses — the default 
 | R05 | Body length | >500 lines | -10 |
 | R06 | Code examples | Complex concepts with no examples | -5 |
 | R06 | Code examples | No examples at all in a technical skill | -10 |
-| R06 | `<example>` blocks | Zero `<example>` blocks on a `user_invocable: true` skill | -10 |
+| R06 | `<example>` blocks | Zero `<example>` blocks on a user-invocable skill (`user-invocable` absent or `true`) | -10 |
 | R07 | Scope note | No scope note / cross-references | -3 |
 
 > **Scope-note discipline:** R07 means "scope note when related skills exist."
@@ -77,14 +88,31 @@ Penalties stack. The floor is 0; the ceiling is 100. No bonuses — the default 
 | Rule | Check | Condition | Penalty |
 |------|-------|-----------|---------|
 | R09 | `description` present | Missing | -25 |
-| R09 | `<example>` blocks | Exactly 1 example | -5 |
-| R09 | `<example>` blocks | Zero examples | -15 |
+| R09 | `<example>` blocks | Zero `<example>` blocks in the description | -15 |
+| R09 | Exclusion clause | Description names no situation the agent is not for (a "Not for …"/"Do not use …" sentence, or an example where the assistant declines or routes elsewhere) | -5 |
+| R09 | Description length | Description value over 1,200 characters, examples included | -5 |
 | R10 | `model` declared | Not declared | -5 |
 | R10 | `model` appropriate | Wrong tier for task (e.g. opus for parsing) | -5 |
 | R11 | `tools` declared | Not declared | -5 |
 | R11 | Unused tools | Each tool declared but not used in body | -3 each |
 | R12 | Output format | No output format spec in body | -10 |
 | R11 | Write on read-only | Audit/review/scan agent declares Write or Edit | -10 |
+
+> **R09 example budget** (changed in 1.4.0): one `<example>` block is full
+> credit. An agent's `description` sits in the Agent tool's text on every turn
+> and is the only thing Claude sees when choosing an agent, so examples stay in
+> the description — moving them into the body hides them from routing. One
+> well-chosen example plus an explicit exclusion ("Not for …") carries the
+> routing signal at a fraction of the tokens; extra examples are allowed but
+> cost always-on context, which is why R09 deducts 5 points when the
+> description exceeds 1,200 characters.
+
+> **`min_examples` override** (`R09: { min_examples: N }` in the project's
+> `nlpm.local.md`, see `nlpm:conventions` §6): with N greater than 1, a
+> description that has at least one but fewer than N `<example>` blocks costs
+> -5 per missing block, capped at -15 so that a partial set never costs more
+> than none; zero blocks stays -15. The exclusion-clause and length rows are
+> unchanged. Without the override, N is 1 and the rows above apply as written.
 
 ---
 
@@ -136,33 +164,14 @@ Penalties stack. The floor is 0; the ceiling is 100. No bonuses — the default 
 
 ### Hooks (Claude Code — Tier 2-Claude only)
 
-Authoritative event list: `nlpm:conventions-claude` §7. Per the multi-tool design (`analysis/multi-tool-design-2026-05.md` decision #4), Claude / Codex / Antigravity hook event vocabularies are NOT 1:1 mappable — three separate tables, no translation.
+Authoritative event list: `nlpm:conventions-claude` §7 together with its extended allow-list in `conventions-claude/reference.md`. Per the multi-tool design (`analysis/multi-tool-design-2026-05.md` decision #4), Claude / Codex / Antigravity hook event vocabularies are NOT 1:1 mappable — three separate tables, no translation. The Codex and Antigravity tables are in `references/codex.md` and `references/antigravity.md`.
 
 | Rule | Check | Condition | Penalty |
 |------|-------|-----------|---------|
-| R27 | Event names valid (Claude) | Uses unrecognized event name — confirmed Claude events: `SessionStart`, `SessionEnd`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PermissionRequest`, `Stop`, `StopFailure`, `FileChanged` | -15 |
+| R27 | Event names valid (Claude) | Uses an event name that is in neither the `nlpm:conventions-claude` §7 table nor its extended allow-list (`conventions-claude/reference.md`, Hook Events). Those two lists together are the confirmed set (33 events, including `SubagentStop`, `SubagentStart`, `PreCompact` and `Notification`); a name missing from both still passes if `code.claude.com/docs/en/hooks.md` documents it | -15 |
 | R27 | Case correct (Claude) | Event name has wrong case (e.g. `pretooluse`) | -10 |
 | -- | Hook type valid (Claude) | Uses unrecognized `type` value — confirmed Claude types: `command`, `http`, `mcp_tool`, `prompt`, `agent` | -10 |
 | -- | MCP matcher format (Claude) | Matcher targets MCP tool but doesn't use `mcp__<server>__<tool>` pattern | -5 |
-
-### Hooks (Codex CLI — Tier 2-Codex only)
-
-Authoritative event list: `nlpm:conventions-codex` §6.
-
-| Rule | Check | Condition | Penalty |
-|------|-------|-----------|---------|
-| R27 | Event names valid (Codex) | Uses unrecognized event name — confirmed Codex events: `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PermissionRequest`, `PreCompact`, `PostCompact`, `SubagentStart`, `SubagentStop`, `Stop` | -15 |
-| R27 | Case correct (Codex) | Event name has wrong case | -10 |
-| -- | Hooks config key (Codex) | `config.toml` uses deprecated `[features].codex_hooks` instead of `[features].hooks` (renamed ~CLI 0.129+) | -5 (advisory) |
-
-### Hooks (Antigravity / Gemini lineage — Tier 2-Antigravity only) — ADVISORY
-
-Authoritative event list: `nlpm:conventions-antigravity` §5. **All Antigravity-specific hook scoring is advisory-only** (confidence:low) until the Antigravity 2.0 spec stabilizes — see `analysis/multi-tool-design-2026-05.md` decision #3.
-
-| Rule | Check | Condition | Penalty |
-|------|-------|-----------|---------|
-| R27 | Event names valid (Gemini lineage) | Uses unrecognized event name — confirmed events: `SessionStart`, `BeforeAgent`, `BeforeModel`, `BeforeToolSelection`, `BeforeTool`, `AfterTool`, `AfterModel`, `AfterAgent`, `SessionEnd`, `Notification`, `PreCompress` | -10 (advisory) |
-| R27 | Case correct (Gemini lineage) | Event name has wrong case | -5 (advisory) |
 
 ---
 
@@ -176,69 +185,20 @@ Authoritative event list: `nlpm:conventions-antigravity` §5. **All Antigravity-
 
 ---
 
-### .codex-plugin/plugin.json (Codex CLI — Tier 2-Codex only)
+### .claude-plugin/marketplace.json (Claude Code — Tier 2-Claude)
 
-Schema reference: `nlpm:conventions-codex` §3.
-
-| Check | Condition | Penalty |
-|-------|-----------|---------|
-| Valid JSON | File fails JSON parse | -25 |
-| `name` present | Missing | -25 |
-| `name` kebab-case | Mixed case or underscores | -10 |
-| `version` is semver | Present but not valid semver | -10 |
-| `description` present | Missing | -5 |
-| Artifact paths relative | `skills`/`mcpServers`/`apps`/`hooks` paths absolute or missing `./` prefix | -5 each |
-
----
-
-### .agents/plugins/marketplace.json (Codex marketplace — Tier 2-Codex)
-
-Schema reference: `nlpm:conventions-codex` §4. Schema is largely compatible with Claude's `.claude-plugin/marketplace.json`.
+Schema reference: `nlpm:conventions-claude` §17 and its `reference.md` (Plugin Distribution).
 
 | Check | Condition | Penalty |
 |-------|-----------|---------|
 | Valid JSON | File fails JSON parse | -25 |
 | `name` present | Missing | -25 |
+| `owner.name` present | `owner` missing, or it has no `name` | -10 |
 | `plugins` array present | Missing or empty | -10 |
-| Per-plugin `source` valid | `source.source` not in `github`/`git`/`local`, or required `repo`/`path` missing | -10 each |
-| Per-plugin `category` present | Missing (informational, helps marketplace navigation) | -3 each |
-
----
-
-### agents/openai.yaml (Codex skill sidecar — Tier 2-Codex)
-
-Schema reference: `nlpm:conventions-codex` §2.
-
-| Check | Condition | Penalty |
-|-------|-----------|---------|
-| Valid YAML | File fails YAML parse | -25 |
-| Sidecar is colocated | `agents/openai.yaml` not in same directory as a `SKILL.md` | -10 |
-| `interface.display_name` present | Missing | -5 (informational) |
-
----
-
-### gemini-extension.json (Gemini/Antigravity — Tier 2-Antigravity) — ADVISORY
-
-Schema reference: `nlpm:conventions-antigravity` §3. **All Antigravity-specific manifest scoring is advisory-only** until the post-2026-06-18 Antigravity spec stabilizes.
-
-| Check | Condition | Penalty |
-|-------|-----------|---------|
-| Valid JSON | File fails JSON parse | -25 |
-| `name` present | Missing | -25 |
-| `version` present | Missing | -10 |
-| `contextFileName` includes `AGENTS.md` | Single-tool projects use only `GEMINI.md`; multi-tool should include `AGENTS.md` | -3 (advisory; multi-tool nudge) |
-
----
-
-### .gemini/commands/*.toml (Gemini slash commands — legacy/transitional, Tier 2-Antigravity)
-
-Schema reference: `nlpm:conventions-antigravity` §4.
-
-| Check | Condition | Penalty |
-|-------|-----------|---------|
-| Valid TOML | File fails TOML parse | -25 |
-| `prompt` field present | Missing required field | -25 |
-| `description` field present | Missing (auto-generated from filename, but explicit is better) | -3 |
+| Per-plugin `name` and `source` | Either missing | -10 each |
+| Per-plugin `source` valid | A relative path that doesn't start with `./` (bare names are valid only under `metadata.pluginRoot`), or an object whose `source.source` isn't one of the six object types in `reference.md` or that lacks that type's required field | -10 each |
+| Per-plugin `version` in step | Differs from the `version` in the `plugin.json` it describes, when that file is in the same repository (`plugin.json` wins at load, so the entry is stale) | -5 each |
+| Per-plugin `description` present | Missing (the `/plugin` browser shows it) | -3 each |
 
 ---
 
@@ -248,18 +208,6 @@ Schema reference: `nlpm:conventions-antigravity` §4.
 |-------|-----------|---------|
 | Valid JSON | File fails JSON parse | -25 |
 | Server `command` present | MCP server entry missing `command` field | -15 |
-
----
-
-### .codex/config.toml (Codex configuration — Tier 2-Codex)
-
-Schema reference: `nlpm:conventions-codex` §5.
-
-| Check | Condition | Penalty |
-|-------|-----------|---------|
-| Valid TOML | File fails TOML parse | -25 |
-| Deprecated `[features].codex_hooks` | Should be `[features].hooks` (renamed ~CLI 0.129) | -5 (advisory) |
-| Per-MCP `command` present | `[mcp_servers.<id>]` table missing `command` field | -15 each |
 
 ---
 
@@ -299,7 +247,7 @@ Schema details: `nlpm:conventions-claude` §13. Stable in 2026.
 
 | Rule | Check | Condition | Penalty |
 |------|-------|-----------|---------|
-| R49 | File exists | No CLAUDE.md in plugin root | -10 |
+| R49 | File exists | Neither AGENTS.md nor CLAUDE.md in plugin root | -10 |
 | -- | Under 200 lines | CLAUDE.md exceeds 200 lines | -5 |
 | R38 | Actionable content | CLAUDE.md has no actionable guidance (just filler) | -10 |
 | R33 | Build/run command | No instructions for how to build or run the project | -10 |
@@ -310,41 +258,6 @@ Schema details: `nlpm:conventions-claude` §13. Stable in 2026.
 | R38 | Actionability ratio | >60% of content is description rather than instructions | -5 |
 | -- | Prerequisites section | No section covering required tools, versions, or setup steps | -5 |
 | R39 | No rule conflicts | CLAUDE.md says X while a `.claude/rules/` file says not-X | -15 |
-
----
-
-### Memory Files
-
-Applies to `.md` files located in `~/.claude/projects/*/memory/` directories.
-
-| Rule | Check | Pass (+0) | Penalty |
-|------|-------|-----------|---------|
-| -- | Has YAML frontmatter | Present | -15 |
-| -- | `name` in frontmatter | Present | -10 |
-| -- | `description` in frontmatter | Present | -10 |
-| -- | `type` in frontmatter | Present (`user`/`feedback`/`project`/`reference`) | -5 |
-| -- | Content matches declared type | Yes | -10 |
-| -- | Referenced in MEMORY.md index | Yes | -5 (orphaned memory) |
-| R37 | Stale content | No references to removed files or functions | -10 |
-
----
-
-### Agent Workflow Programs (project-root `program.md`-style files)
-
-A new artifact type recognized 2026-05-28 (see `nlpm:conventions` §2 and `auditor/exemplars/karpathy-autoresearch.md`): a project-root Markdown file driving an autonomous agent loop, hybrid between a memory file (AGENTS.md-shaped context) and a slash command (numbered workflow with output format + error paths).
-
-**No type-specific penalty rows.** This artifact type is scored as the UNION of:
-- **Command rules R14–R17**: numbered steps for multi-phase work, empty-input handling, output format, error paths.
-- **Memory file rules R33–R39**: build/run commands, architecture overview, no stale refs, instructive-not-descriptive.
-- **Universal R01** (vague quantifiers) and R03 (positive framing).
-
-Type-specific penalty rows are deferred until N ≥ 3 examples surface — the existing rules cover the artifact adequately as a hybrid, and inventing rows from N = 1 risks over-fitting (calibrated per the same discipline applied to multi-tool discovery deferrals).
-
-**Patterns this artifact type rewards** (loaded on demand from `nlpm:patterns`):
-- P10 (numeric anchoring of subjective principles)
-- P11 (paired CAN/CANNOT contract)
-- P12 (autonomy instruction + rationale + fallback ladder)
-- P13 (vivid closing use-case)
 
 ---
 
@@ -423,9 +336,9 @@ Applied when linting an entire plugin rather than individual files.
 
 ## Calibration Examples
 
-Four worked examples — *Excellent Agent (95)*, *Rewrite Agent (41)*, *Excellent Rule (92)*, *Weak Rule (40)* — live in [`references/calibration-examples.md`](references/calibration-examples.md). Load that file on demand when scoring a borderline case (around band boundaries: 88-92, 68-72, 58-62) and you need an anchored reference.
+Four worked examples — *Excellent Agent (97)*, *Rewrite Agent (41)*, *Excellent Rule (92)*, *Weak Rule (41)* — live in [`references/calibration-examples.md`](references/calibration-examples.md). Load that file on demand when scoring a borderline case (around band boundaries: 88-92, 68-72, 58-62) and you need an anchored reference.
 
-The examples are not needed for routine scoring — the penalty tables above are self-contained. They were extracted from this file 2026-05-28 to keep the rubric under R05's 500-line body budget while preserving the calibration material verbatim.
+The examples are not needed for routine scoring — the penalty tables (above, plus the per-tool reference files indexed under Penalty Tables) are self-contained. They were extracted from this file 2026-05-28 to keep the rubric under R05's 500-line body budget while preserving the calibration material verbatim.
 
 ---
 
@@ -440,9 +353,9 @@ This skill covers the NLPM scoring formula, penalty tables, score bands, and cal
 
 nlpm now scores artifacts across three tool ecosystems — Claude Code, Codex CLI, and Antigravity (which absorbs Gemini CLI on 2026-06-18). The tier classification in `agents/scorer.md` separates open-spec (Tier 1), Tier 1.5 open-spec corpora, and per-tool Tier 2 overlays (2-Claude / 2-Codex / 2-Antigravity).
 
-- **Hooks** are scored per tool (Claude / Codex / Antigravity tables above). The three tools' event vocabularies are not 1:1 mappable; no universal translation layer. See `analysis/multi-tool-design-2026-05.md` decision #4.
-- **Codex-specific artifacts** scored: `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.codex/config.toml`, `agents/openai.yaml` sidecars.
-- **Antigravity-specific artifacts** scored (advisory-only until spec stabilizes): `gemini-extension.json`, `.gemini/commands/*.toml`, Antigravity hook events.
+- **Hooks** are scored per tool (the Claude table above; the Codex and Antigravity tables in `references/`). The three tools' event vocabularies are not 1:1 mappable; no universal translation layer. See `analysis/multi-tool-design-2026-05.md` decision #4.
+- **Codex-specific artifacts** scored (`references/codex.md`): `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.codex/config.toml`, `agents/openai.yaml` sidecars.
+- **Antigravity-specific artifacts** scored (`references/antigravity.md`; advisory-only until spec stabilizes): `gemini-extension.json`, `.gemini/commands/*.toml`, Antigravity hook events.
 - **Claude-specific additions** in 2026: `.lsp.json`, `monitors/monitors.json` (validate JSON-parse only until detailed schemas land). New SKILL.md fields documented in `nlpm:conventions-claude`.
 
 ### Known False Positive Patterns
@@ -454,10 +367,10 @@ having no backing in this rubric. They MUST NOT be penalized:
 |---|---|
 | Missing `namespace:` on skill | Not in the skill schema; `conventions` §5 does not list it |
 | Missing inline `hooks:`/`skills:` registration blocks in plugin.json | `conventions` §1 defines these as optional path strings |
-| `AskUserQuestion` / `Task` / `WebFetch` flagged as undocumented tool | Built-in per `conventions` §14 |
+| `AskUserQuestion` / `Task` / `WebFetch` flagged as undocumented tool | Built-in per `conventions-claude` §16 |
 | Agent missing `skills:` when omission is documented in CLAUDE.md | Intentional architectural choice |
 | plugin.json missing `engines:` / `minClaudeVersion:` / `main:` | All optional per `conventions` §1 |
 | plugin.json description shorter than sibling marketplace.json description | Desynchronization ≠ defect; only penalize if required field is absent |
 
 When in doubt: if a finding cannot be cited to a specific row in the penalty
-tables above, drop it.
+tables above or in a reference file indexed under Penalty Tables, drop it.

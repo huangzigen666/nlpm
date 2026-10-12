@@ -1,16 +1,11 @@
 ---
 name: scanner
 description: |
-  Discover and classify all NL programming artifacts in a repository.
+  Discover and classify all NL programming artifacts in a repository — the current directory or a given project path — with per-file line counts. Not for scoring artifacts or checking cross-artifact consistency; it only inventories them (the scorer and checker do those).
   <example>
   Context: User wants to see all their NL artifacts
   user: "/nlpm:ls"
   assistant: "I'll use the scanner to discover all NL artifacts."
-  </example>
-  <example>
-  Context: User wants to check a specific project
-  user: "/nlpm:ls ~/github/myproject"
-  assistant: "I'll scan that project for NL programming artifacts."
   </example>
 model: haiku
 color: cyan
@@ -25,10 +20,10 @@ Discover all natural language programming artifacts in the given directory.
 
 ## Instructions
 
-1. Use the discovery patterns from `commands/shared/discover.md` to discover all files in Category A (plugin artifacts) and Category B (project config).
+1. Use the discovery patterns from `${CLAUDE_PLUGIN_ROOT}/commands/shared/discover.md` to discover all files in Category A (plugin artifacts) and Category B (project config).
 2. Skip directories: node_modules/, .git/, target/, dist/, build/, vendor/, __pycache__/, .next/, .venv/
 3. For each found file:
-   a. Classify its type using the rules from `commands/shared/classify.md`
+   a. Classify its type using the rules from `${CLAUDE_PLUGIN_ROOT}/commands/shared/classify.md`
    b. Count its lines (Read the file, count newlines)
    c. Record: path, category (A or B), type, line_count
 4. Compute totals: files per category, total lines, estimated tokens (lines * 3.5)
@@ -52,4 +47,4 @@ Total: {N} artifacts, {L} lines, ~{T} tokens
 
 If a category has no files, show: `Category X — {Name}    0 files`
 
-Remove `.gitkeep` if present in agents/ directory before reporting.
+Exclude `.gitkeep` from counts if present in the agents/ directory.

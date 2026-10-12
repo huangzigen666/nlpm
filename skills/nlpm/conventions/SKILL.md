@@ -1,12 +1,15 @@
 ---
 name: conventions
-description: "Universal NL programming conventions — SKILL.md open spec (agentskills.io), AGENTS.md as canonical universal memory file, vague-quantifier list, prompt engineering layers, naming conventions, the override system. Tool-specific schemas live in nlpm:conventions-claude / nlpm:conventions-codex / nlpm:conventions-antigravity."
+description: "Universal NL conventions: SKILL.md open spec, AGENTS.md, vague quantifiers, naming."
 version: 0.2.1
+user-invocable: false
 ---
 
 # Universal NL Programming Conventions
 
 The cross-tool floor for all artifact schemas. Use this skill when scoring or writing any NL programming artifact regardless of which tool (Claude Code / Codex CLI / Antigravity) it targets.
+
+**Notation:** `$+{CLAUDE_PLUGIN_ROOT}` in this file is Claude Code's plugin-root variable, split by a `+` so Claude Code does not replace it with a path when it loads this skill; the real token has no `+` (`nlpm:conventions-claude` §2.4).
 
 **Tool-specific overlays** load on top of this universal floor:
 - `nlpm:conventions-claude` — Claude Code artifacts (`.claude/`, `plugin.json`, etc.)
@@ -75,19 +78,19 @@ Per nlpm decision (`analysis/multi-tool-design-2026-05.md` §5), AGENTS.md is th
 **Tool-native support:**
 - **Codex CLI:** reads AGENTS.md natively. Hierarchical (root→cwd; closer overrides earlier). 32 KiB cap. `~/.codex/AGENTS.override.md` for personal overlays.
 - **Antigravity (and Gemini CLI):** reads `GEMINI.md` natively, but `context.fileName` setting accepts an array — set to `["AGENTS.md", "GEMINI.md"]` to make it read AGENTS.md.
-- **Claude Code:** reads `CLAUDE.md` natively, supports `@file.md` import syntax. The canonical pattern is a one-line `CLAUDE.md` containing `@AGENTS.md`.
+- **Claude Code:** reads `AGENTS.md` natively from 2.1.277, but only when no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` exists in the working directory or any directory above it (`~/.claude/CLAUDE.md` does not count). Older versions read only `CLAUDE.md`, which supports `@file.md` imports — there the compatibility pattern is a one-line `CLAUDE.md` containing `@AGENTS.md`. Plugin repositories ship `AGENTS.md` alone: `claude plugin validate` warns that a `CLAUDE.md` at the plugin root is not loaded as plugin context.
 
 **Recommended pattern for multi-tool projects:**
 
 ```
 project-root/
 ├── AGENTS.md           # canonical content — all instructions live here
-├── CLAUDE.md           # one line: @AGENTS.md
+├── CLAUDE.md           # only for Claude Code < 2.1.277: one line, @AGENTS.md (omit in plugin repos)
 ├── GEMINI.md           # one line: @AGENTS.md  (only if Gemini-native @-import works)
 └── .gemini/settings.json  # set context.fileName: ["AGENTS.md"]
 ```
 
-This is exactly how nlpm itself is structured (`CLAUDE.md` → `@AGENTS.md`).
+This is exactly how nlpm itself is structured: `AGENTS.md` alone, which Claude Code reads natively.
 
 **Body conventions** (universal):
 - Open with a one-line project description.
@@ -102,7 +105,7 @@ This is exactly how nlpm itself is structured (`CLAUDE.md` → `@AGENTS.md`).
 
 An agent workflow program is a single project-root Markdown file that drives an autonomous agent loop — imperative numbered steps with output formats and error paths, sitting between a memory file (AGENTS.md-shaped context) and a slash command (workflow with verifiable side effects). Karpathy's `program.md` in [`karpathy/autoresearch`](https://github.com/karpathy/autoresearch) is the canonical example (audited 2026-05-28 at score ~90; see [`auditor/exemplars/karpathy-autoresearch.md`](../../../auditor/exemplars/karpathy-autoresearch.md)). The README explicitly frames it as natural-language programming: "you are programming the `program.md` Markdown files that provide context to the AI agents."
 
-nlpm recognizes the pattern but does not yet have a dedicated penalty rubric — the universal floor (R01 vague quantifiers, R03 positive framing, R09 prompt layers) + the command rules (R14–R17) + the memory-file rules (R33–R39) cover it adequately as a hybrid. A standalone rubric is deferred until N≥3 examples surface, per the same "don't build for an empty corpus" discipline applied to multi-tool discovery.
+nlpm recognizes the pattern but does not yet have a dedicated penalty rubric — the universal floor (R01 vague quantifiers, R03 positive framing, R40 prompt layers) + the command rules (R14–R17) + the memory-file rules (R33–R39) together cover every section such a file has — steps, output format, error paths, build/run commands, architecture — so it is scored as a hybrid with no type-specific rows. A standalone rubric is deferred until N≥3 examples surface, per the same "don't build for an empty corpus" discipline applied to multi-tool discovery.
 
 ---
 
@@ -117,7 +120,7 @@ Universal patterns applicable to any NL artifact (commands, agents, skills, prom
 4. Constraints — what to avoid, limits, edge cases
 5. Output format — exact structure of the response
 
-**Few-shot examples:** Include 2+ concrete input→output examples for any complex judgment task. Examples dramatically improve consistency.
+**Few-shot examples (prompt bodies):** In the body of a prompt, command, or skill, include 2+ concrete input→output examples for any complex judgment task. Examples dramatically improve consistency. This is about the instructions a model executes, not about an agent's `description`: there R09 asks for one `<example>` plus a "Not for …" sentence, because the description is always-on routing context.
 
 **Positive framing:** State what to do. "Use imperative verbs" beats "Don't use passive voice." The brain processes prohibitions poorly under inference load (Pink Elephant effect).
 
@@ -154,7 +157,7 @@ See `nlpm:scoring` for the full vague-quantifier penalty table and cap (-2 each,
 | Environment variables | SCREAMING_SNAKE | `OPENAI_API_KEY`, `CLAUDE_PLUGIN_ROOT` |
 | Plugin directory env vars | tool-specific (no universal `<TOOL>_PLUGIN_ROOT` pattern) | Claude: `CLAUDE_PLUGIN_ROOT`. Codex: `PLUGIN_ROOT` / `PLUGIN_DATA` (also mirrors `CLAUDE_PLUGIN_ROOT` for compat — there is **no** `CODEX_PLUGIN_ROOT`) |
 
-**Portable paths:** Within a plugin, always reference files via the tool's plugin-root environment variable — `${CLAUDE_PLUGIN_ROOT}` in Claude Code, `${PLUGIN_ROOT}` in Codex (Codex additionally sets `CLAUDE_PLUGIN_ROOT` / `CLAUDE_PLUGIN_DATA` for compatibility with existing plugin hooks). Hardcoded absolute paths break portability.
+**Portable paths:** Within a plugin, always reference files via the tool's plugin-root environment variable — `$+{CLAUDE_PLUGIN_ROOT}` in Claude Code, `${PLUGIN_ROOT}` in Codex (Codex additionally sets `CLAUDE_PLUGIN_ROOT` / `CLAUDE_PLUGIN_DATA` for compatibility with existing plugin hooks). Hardcoded absolute paths break portability.
 
 Tool-specific naming details (e.g., the exact `CLAUDE_PLUGIN_ROOT` semantics) live in the per-tool overlays.
 
@@ -179,7 +182,7 @@ score_threshold: 70
 rule_overrides:
   R01: { max_penalty: -10 }     # reduce vague quantifier cap from -20 to -10
   R05: { threshold: 600 }       # allow skills up to 600 lines instead of 500
-  R09: { min_examples: 1 }      # require only 1 example block instead of 2
+  R09: { min_examples: 2 }      # restore the stricter two-example bar (one example: -5)
   R10: { suppress: true }       # disable model tier checking entirely
   R23: { budget: 800 }          # increase rules budget from 500 to 800 lines
   R51: { enabled: true, vocabulary_skill: skills/myplugin/vocabulary/ }
@@ -194,7 +197,7 @@ rule_overrides:
 | `enabled: true` | Activate a rule that ships disabled by default (currently only R51) | `R51: { enabled: true, vocabulary_skill: ... }` |
 | `max_penalty: N` | Cap the penalty (less negative = more lenient) | `R01: { max_penalty: -10 }` |
 | `threshold: N` | Adjust numeric thresholds | `R05: { threshold: 600 }` |
-| `min_examples: N` | Adjust minimum example counts | `R09: { min_examples: 1 }` |
+| `min_examples: N` | Raise the minimum `<example>` count (default 1); each missing block below N costs -5, capped at -15, and zero blocks stays -15 (`nlpm:scoring`, Agents) | `R09: { min_examples: 2 }` |
 | `vocabulary_skill: <path>` | Path to project's `vocabulary` skill (R51 only) | `R51: { enabled: true, vocabulary_skill: ... }` |
 
 Rules not listed in `rule_overrides` use their defaults from `nlpm:scoring`. Rules that ship disabled (R51) contribute zero penalty unless `enabled: true` is set explicitly.

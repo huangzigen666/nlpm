@@ -1,12 +1,15 @@
 ---
 name: conventions-claude
-description: "Use when scoring or writing Claude Code artifacts — covers .claude/ paths, plugin.json schema, command + agent + skill frontmatter, CLAUDE.md, hook events, hooks.json format, settings.json, LSP, monitors, memory file conventions, and the Claude Code built-in tool catalog. Refreshed 2026-08-02 against current docs (Claude Code ≥ v2.1.218)."
-version: 0.3.0
+description: "Claude Code artifact schemas: plugin.json, frontmatter, hooks, settings, tools."
+version: 0.3.1
+user-invocable: false
 ---
 
 # Claude Code Conventions
 
 Tool-specific overlay for Claude Code plugin artifacts. Loaded by the scorer and checker when an artifact is classified as **Tier 2-Claude** (per `agents/scorer.md` step 3). The universal floor lives in `nlpm:conventions`; this overlay adds Claude-Code-specific schemas on top.
+
+**Last refreshed:** 2026-08-02 against current docs (Claude Code ≥ v2.1.218); §2.2, §2.4 and §14 corrected 2026-10-01 against Claude Code 2.1.285. **Notation:** a `+` splits `$+ARGUMENTS` and the dollar-brace variables such as `$+{CLAUDE_PLUGIN_ROOT}` throughout this file. The real tokens have no `+`. They are split because Claude Code replaces the contiguous tokens with their values whenever it loads a skill, including when an agent preloads it, so a literal token here would reach the reader as an empty string or a path (§2.4).
 
 **Primary authoritative sources:**
 - <https://code.claude.com/docs/en/claude_code_docs_map.md>
@@ -44,7 +47,7 @@ The manifest is **fully optional** — artifacts auto-discover from conventional
 - `keywords` — string array for discovery
 - `$schema` — URL to the manifest JSON Schema (editor validation)
 - `defaultEnabled` — boolean; whether the plugin is enabled on install (v2.1.154+)
-- `userConfig` — object; per-key prompts shown to the user at enable time; values exposed as `${user_config.<key>}` substitutions
+- `userConfig` — object; per-key prompts shown to the user at enable time; values exposed as `$+{user_config.<key>}` substitutions
 - `channels` — array; message-injection channel bindings
 - `dependencies` — array of other plugins this one requires (supports semver constraints)
 
@@ -66,20 +69,7 @@ The manifest is **fully optional** — artifacts auto-discover from conventional
 
 **Plugin structure note:** a `bin/` directory in a plugin root puts its executables on the Bash tool's `PATH` — files there are invokable as bare commands in any Bash call while the plugin is enabled.
 
-**Example:**
-```json
-{
-  "name": "my-plugin",
-  "version": "0.2.1",
-  "description": "Does useful things",
-  "author": { "name": "dev" },
-  "license": "MIT",
-  "keywords": ["tools", "productivity"],
-  "commands": "commands/",
-  "agents": "agents/",
-  "skills": "skills/"
-}
-```
+**Example manifest → [reference.md](reference.md#pluginjson-example).**
 
 ---
 
@@ -118,7 +108,7 @@ Existing `.claude/commands/` files continue to function. New code should prefer 
 - `agent` — which subagent type (built-in: `Explore`, `Plan`, `general-purpose`)
 - `hooks` — `{...}` skill-scoped hooks (same shape as settings.json hooks)
 - `paths` — glob patterns; auto-load only for matching files (e.g., `"src/**/*.ts,lib/**/*.ts"`)
-- `shell` — `bash` (default) or `powershell` for `!`cmd`` blocks
+- `shell` — `bash` (default) or `powershell` for the dynamic context blocks in §2.3
 - `background` — boolean; only meaningful with `context: fork`. `false` waits for the forked subagent's result in the invoking turn instead of backgrounding it (default `true`; v2.1.218+).
 
 Boolean frontmatter fields accept `yes`/`no`/`on`/`off`/`1`/`0` (any case) in addition to `true`/`false` (v2.1.218+). The combined `description` + `when_to_use` shown in the skill listing is truncated at 1,536 characters — keep triggers within that budget.
@@ -127,18 +117,33 @@ Boolean frontmatter fields accept `yes`/`no`/`on`/`off`/`1`/`0` (any case) in ad
 
 - Write imperative instructions directed at Claude (not the user)
 - Use numbered steps for multi-phase workflows
-- Reference shared partials by relative path: `commands/shared/name.md`
+- Reference shared partials by plugin-root path, not a bare relative path (§14)
 - Define expected output format explicitly in the body
 
 ### 2.3 Dynamic context injection
 
-- `` !`git diff HEAD` `` — runs command before Claude sees the skill; replaces line with output.
-- ` ```! ` fenced blocks — multi-line commands.
+- Inline form: an exclamation mark placed directly before a single-backtick code span holding a command (e.g. `git diff HEAD`) — runs the command before Claude sees the skill and replaces the span with its output.
+- Fenced form: a code fence whose opening three backticks are followed directly by an exclamation mark — runs its multi-line commands the same way. Both forms are described in words here because Claude Code would execute them when this skill is preloaded.
 - Disabled if `"disableSkillShellExecution": true` in settings.
 
 ### 2.4 String substitutions (valid in command/skill bodies)
 
-`$ARGUMENTS`, `$ARGUMENTS[N]`, `$N` (positional), `$name` (named argument), `${CLAUDE_SESSION_ID}`, `${CLAUDE_EFFORT}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_PLUGIN_ROOT}`. Do NOT flag these as undefined variables.
+Claude Code replaces these tokens in command and skill bodies. Do NOT flag them as undefined variables. Each is written with this file's `+` split (see Notation at the top); drop the `+` to get the real token.
+
+| Token | Replaced with |
+|---|---|
+| `$+ARGUMENTS` | every argument passed on invocation |
+| `$+ARGUMENTS[N]` | the argument at index N, 0-based |
+| `$+N` (a digit, e.g. `$+0`) | shorthand for `$+ARGUMENTS[N]` |
+| `$+name` | a named argument declared in `arguments:` (§2.1) |
+| `$+{CLAUDE_SESSION_ID}` | the current session ID |
+| `$+{CLAUDE_EFFORT}` | the current effort level |
+| `$+{CLAUDE_SKILL_DIR}` | the directory that holds the skill's `SKILL.md` |
+| `$+{CLAUDE_PLUGIN_ROOT}` | the plugin's install directory |
+| `$+{CLAUDE_PLUGIN_DATA}` | the plugin's persistent data directory |
+| `$+{CLAUDE_PROJECT_DIR}` | the project directory |
+
+**Preloading substitutes too** (observed on Claude Code 2.1.285, 2026-10-01): when an agent preloads a skill through `skills:`, `$+ARGUMENTS` becomes an empty string and every `$+{CLAUDE_…}` token above becomes its value; `$+N` and `$+name` stay literal because a preload passes no arguments. A backslash protects `$+ARGUMENTS` but not the braced tokens. A reference skill that *describes* these tokens must therefore split them as this file does, or its reader sees the substituted values instead of the token names.
 
 ---
 
@@ -185,7 +190,7 @@ Agents live in `.claude/agents/<name>.md`.
 
 **Plugin-shipped agents are restricted:** `hooks`, `mcpServers`, and `permissionMode` are **ignored** for agents distributed inside a plugin (security). Score plugin agents accordingly.
 
-**Best practice: include `<example>` blocks in description.** Two or more `<example>` blocks with diverse scenarios is the minimum for reliable triggering.
+**Best practice: include `<example>` blocks in description.** The description is placed in the Agent tool's text on every turn and is the only thing Claude sees when choosing an agent, so examples belong there (not in the body). One well-chosen `<example>` plus a "Not for …" sentence carries the routing signal; extra examples are allowed but cost always-on context. nlpm R09 deducts 5 points when the description exceeds 1,200 characters.
 
 ---
 
@@ -270,43 +275,7 @@ A `command` hook may add `"shell": "powershell"` to run that hook in PowerShell 
 
 Located at `.claude/hooks.json` or `<plugin>/hooks/hooks.json`.
 
-```json
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/pre-write-check.sh"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "You are now in strict TDD mode."
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-**Structure rules:**
-- Top-level key: `"hooks"`
-- Second-level keys: event names (case-sensitive)
-- Each event maps to an array of matcher objects: `{ "matcher": "<regex>", "hooks": [...] }`
-- Each hook object: `{ "type": "command"|"http"|"mcp_tool"|"prompt"|"agent", "<type-field>": "..." }`
-- Field name matches the type: `"command"` for type `command`, `"prompt"` for type `prompt`, etc.
-
-**Optional hook-object fields (current — do NOT flag as malformed):** `if` (Bash-pattern, permission-scoped condition), `timeout` (seconds), `statusMessage`, `once` (v2.1+; skills/agents only), exec-form `args` (array, as an alternative to shell-form `command`), and `async` / `asyncRewake` for background command hooks.
+**Full example, structure rules and optional hook-object fields → [reference.md](reference.md#hooksjson-format).**
 
 ---
 
@@ -314,17 +283,7 @@ Located at `.claude/hooks.json` or `<plugin>/hooks/hooks.json`.
 
 Claude Code reads MCP server registrations from a **standalone JSON file** at the repo root (NOT embedded in `settings.json` like Gemini, NOT inside `config.toml` like Codex).
 
-```json
-{
-  "mcpServers": {
-    "my-server": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["./server.js"]
-    }
-  }
-}
-```
+**Example → [reference.md](reference.md#mcpjson-example).**
 
 Plugin scope: `<plugin>/.mcp.json` at the plugin root, or inline in `plugin.json` under `mcpServers`. (Only the plugin-root form is documented; the older `.claude-plugin/.mcp.json` variant is not.)
 
@@ -343,13 +302,13 @@ Four memory scopes load in order (managed policy → user → project → local)
 
 Auto-memory is a **separate** system at `~/.claude/projects/<slug>/memory/` (see §15) — there is no `.claude/memory/*.md` convention.
 
-**Recommended pattern for multi-tool projects** (per `analysis/multi-tool-design-2026-05.md` decision #5): use a one-line `CLAUDE.md` that imports `AGENTS.md`:
+**Recommended pattern for multi-tool projects** (per `analysis/multi-tool-design-2026-05.md` decision #5): make `AGENTS.md` the canonical universal memory file and ship no `CLAUDE.md`. Claude Code 2.1.277+ reads `AGENTS.md` natively when no `CLAUDE.md`, `.claude/CLAUDE.md`, or `CLAUDE.local.md` sits in the working directory or above it (`~/.claude/CLAUDE.md` does not count); Codex reads it natively; Gemini/Antigravity can be configured to read it via the `context.fileName` array. This is how nlpm itself works. A plugin root must not carry a `CLAUDE.md` at all — `claude plugin validate` warns that it is not loaded as plugin context.
+
+For Claude Code older than 2.1.277, the compatibility shim is a one-line `CLAUDE.md` that imports `AGENTS.md`:
 
 ```markdown
 @AGENTS.md
 ```
-
-This makes AGENTS.md the canonical universal memory file. AGENTS.md is what Codex reads natively; Gemini/Antigravity can be configured to read it via `context.fileName` array. This is how nlpm itself works.
 
 **Body conventions** when content lives in CLAUDE.md directly:
 - Build/run instructions
@@ -362,28 +321,7 @@ This makes AGENTS.md the canonical universal memory file. AGENTS.md is what Code
 
 ## 11. `.claude/settings.json` and `.claude/settings.local.json`
 
-| Field | Purpose |
-|---|---|
-| `permissions` | Permission policy (allow/deny rules, modes); incl. `permissions.additionalDirectories` |
-| `hooks` | Hook event registrations (alternative to `hooks/hooks.json` for project-scoped hooks) |
-| `model` | Default model selection |
-| `disableSkillShellExecution` | If `true`, disables `!`...`` and ` ```! ` dynamic blocks in skills |
-| `env` | Environment variables injected into the session |
-| `statusLine` | Custom status line command/config |
-| `agent` | Default agent (also the only default-settings key, besides `subagentStatusLine`, a plugin may set) |
-| `effortLevel` | Default effort |
-| `language`, `outputStyle` | Locale / output style defaults |
-| `enabledPlugins` | Plugins enabled for the project |
-| `claudeMd`, `claudeMdExcludes` | Extra memory file globs / exclusions. **`claudeMd` is honored only in managed/policy settings — it has no effect in user/project/local settings.** |
-| `skillOverrides` | Per-skill visibility from settings (keys = skill name; values `on` / `name-only` / `user-invocable-only` / `off`); overrides the skill's own frontmatter |
-| `pluginConfigs` | Stores non-sensitive plugin `userConfig` values under `pluginConfigs[<plugin-id>].options` |
-| `autoMemoryEnabled`, `autoMemoryDirectory` | Auto-memory toggle + location (see §15) |
-| `sandbox.enabled` | Sandbox execution toggle |
-| `extraKnownMarketplaces`, `strictKnownMarketplaces` | Marketplace trust config |
-
-> `theme` is **not** a documented `settings.json` field — do not flag its absence or treat it as valid here (removed from this list 2026-06-07). The above is representative, not exhaustive; treat unrecognized-but-plausible keys as advisory, not errors.
-
-**Rule:** `.local.json` is gitignored (per-user); the non-local file is shared. NEVER set `bypassPermissions: true` in the shared file.
+`.local.json` is gitignored (per-user); the non-local file is shared — never set `bypassPermissions: true` in the shared file. **Field table (incl. `autoMemoryEnabled`/`autoMemoryDirectory`, see §15) → [reference.md](reference.md#settings-fields).**
 
 ---
 
@@ -401,11 +339,8 @@ This makes AGENTS.md the canonical universal memory file. AGENTS.md is what Code
 
 ## 14. Reference Syntax
 
-**Commands referencing shared partials:**
-```
-<!-- Include: commands/shared/discover.md -->
-```
-Or by instruction: "Follow the steps in commands/shared/discover.md"
+**Commands referencing shared partials:** point at the file by absolute path — "Follow the steps in `$+{CLAUDE_PLUGIN_ROOT}/commands/shared/discover.md`". Claude Code substitutes `$+{CLAUDE_PLUGIN_ROOT}` in command, skill and agent bodies; a bare `commands/shared/…` path does not resolve, because a command is not told where its plugin lives.
+Give each partial `user-invocable: false` and `disable-model-invocation: true`, so it stays out of the skill listing while commands still read it.
 
 **Agents referencing skills in frontmatter:**
 ```yaml
@@ -414,10 +349,10 @@ skills: ["nlpm:conventions", "nlpm:conventions-claude"]
 
 **Hooks referencing scripts:**
 ```json
-"command": "${CLAUDE_PLUGIN_ROOT}/scripts/check.sh"
+"command": "$+{CLAUDE_PLUGIN_ROOT}/scripts/check.sh"
 ```
 
-**Always use `${CLAUDE_PLUGIN_ROOT}` for intra-plugin file references.** Hardcoded absolute paths break portability.
+**Always use `$+{CLAUDE_PLUGIN_ROOT}` for intra-plugin file references.** Hardcoded absolute paths break portability.
 
 **Cross-plugin skill references** use the same `plugin:skill` format. The plugin must be installed for the reference to resolve.
 
@@ -425,33 +360,7 @@ skills: ["nlpm:conventions", "nlpm:conventions-claude"]
 
 ## 15. Memory File Conventions (`~/.claude/projects/<slug>/memory/`)
 
-Claude Code writes per-project persistent memory at `~/.claude/projects/<project-slug>/memory/` ("Auto memory", v2.1.59+). Toggled by `autoMemoryEnabled`; location overridable via `autoMemoryDirectory` (§11). At session start the first ~200 lines / 25 KB of `MEMORY.md` plus topic files are loaded into context.
-
-**Index file:** `MEMORY.md` (no frontmatter; one-line-per-entry index).
-
-**Individual memory files** MUST include YAML frontmatter:
-
-```yaml
----
-name: "short identifier"
-description: "one-line summary"
-type: user | feedback | project | reference
----
-```
-
-**`type` values:**
-
-| Value | Meaning |
-|---|---|
-| `user` | Preferences, habits, or facts about the user |
-| `feedback` | Corrections or lessons from past sessions |
-| `project` | Project-specific facts, decisions, or context |
-| `reference` | External reference material copied into memory |
-
-**Rules:**
-- Every memory file must appear in `MEMORY.md` (orphans are flagged).
-- `MEMORY.md` itself is the index; not scored as a memory file.
-- Memory files should not reference removed files or functions.
+Auto memory (v2.1.59+) lives at `~/.claude/projects/<project-slug>/memory/`, toggled by `autoMemoryEnabled` / relocated by `autoMemoryDirectory` (§11); individual files need `name`/`description`/`type` frontmatter and an entry in the `MEMORY.md` index. **Full schema, `type` values and rules → [reference.md](reference.md#memory-file-conventions).**
 
 ---
 
@@ -465,7 +374,7 @@ Tool names valid in `tools:`, `allowed-tools:`, `disallowed-tools:`. **Never fla
 
 ## 17. Plugin distribution
 
-**Marketplace manifest:** `.claude-plugin/marketplace.json` at the marketplace repo root. **Required top-level:** `name`, `owner` (maintainer-info object), `plugins`. Optional: `$schema`, `description`, `version`, `metadata.pluginRoot`, `renames`. Per-plugin entries may add `category`, `tags`, `strict`, `relevance`, `defaultEnabled`. **Full schema, `source` types, and `renames`/`strict` semantics → [reference.md](reference.md#plugin-distribution-marketplacejson).**
+**Marketplace manifest:** `.claude-plugin/marketplace.json` at the marketplace repo root. **Required top-level:** `name`, `owner` (maintainer-info object), `plugins`. Optional: `$schema`, `description`, `version`, `metadata.description`, `metadata.version`, `metadata.pluginRoot`, `forceRemoveDeletedPlugins`, `allowCrossMarketplaceDependenciesOn`, `renames`. Per-plugin entries may add `category`, `tags`, `strict`, `relevance`, `defaultEnabled`. **Full schema, `source` types, and `renames`/`strict` semantics → [reference.md](reference.md#plugin-distribution-marketplacejson).**
 
 **Plugin from URL (v2.1.x):** `--plugin-url` and `--plugin-dir` flags accept `.zip` archives.
 

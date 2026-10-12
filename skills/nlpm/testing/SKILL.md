@@ -1,7 +1,8 @@
 ---
 name: testing
-description: "Use when writing test specs for NL artifacts, running /nlpm:test, or setting up TDD workflows for skills, agents, commands, rules, hooks, and prompts."
+description: "NL artifact test specs for /nlpm:test: spec format, TDD for skills and agents."
 version: 0.1.0
+user-invocable: false
 ---
 
 ## The NL-TDD Cycle
@@ -135,7 +136,7 @@ Overall: 1 passed, 1 failed (50%)
 
 RED items (fix these):
   1. skills/core/SKILL.md — trigger gap: "optimize React hooks" not covered by description
-  2. skills/core/SKILL.md — score 68 < min 85: missing <example> blocks (-15)
+  2. skills/core/SKILL.md — score 68 < min 85: missing <example> blocks (R06, -10)
 ```
 
 ## Best Practices for Specs

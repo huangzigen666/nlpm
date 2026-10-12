@@ -1,12 +1,15 @@
 ---
 name: patterns
-description: "Use when writing or reviewing NL artifacts and need to check for anti-patterns — vague quantifiers, prohibitions without alternatives, oversized skills, write-on-read-only agents, monolithic prompts, or linter-duplicating rules."
+description: "NL artifact anti-patterns: vague quantifiers, bare prohibitions, oversized skills."
 version: 0.1.0
+user-invocable: false
 ---
 
 # NL Programming Patterns
 
 Best practices and anti-patterns for writing NL programming artifacts (Claude Code, Codex CLI, Antigravity). Each pattern includes a rationale and a concrete example. The patterns are tool-agnostic — they describe how to write effective natural-language instructions, not tool-specific schemas. Use this skill when authoring or reviewing skills, agents, commands, rules, or hooks.
+
+**Notation:** `$+{CLAUDE_PLUGIN_ROOT}` in this file is Claude Code's plugin-root variable, split by a `+` so Claude Code does not replace it with a path when it loads this skill; the real token has no `+` (`nlpm:conventions-claude` §2.4).
 
 ---
 
@@ -35,7 +38,7 @@ The bad example won't trigger reliably — "analyzes files" matches too broadly 
 
 ### P2: Example-Driven Agents (R09)
 
-Include 2+ `<example>` blocks in agent descriptions with realistic Context, user turn, and assistant response. Examples anchor the agent's behavior and dramatically improve triggering consistency.
+Include one well-chosen `<example>` block in the agent description — realistic Context, user turn, and assistant response — plus a sentence naming what the agent is not for ("Not for …; use <sibling>"). The description is the only thing Claude sees when choosing an agent and it is loaded on every turn, so examples belong in the description (not the body), and each extra example costs always-on context. Keep the whole description ≤1,200 characters.
 
 **Minimum structure per example:**
 ```
@@ -46,7 +49,7 @@ assistant: <what this agent does in response>
 </example>
 ```
 
-**Diverse scenarios:** Cover at least one user-direct invocation and one command-as-orchestrator invocation if applicable.
+**Pick the example that carries the main positive trigger.** Add a second only when a distinct trigger (e.g. a command-as-orchestrator invocation) cannot be stated in the prose; state secondary trigger phrases in the prose instead.
 
 ---
 
@@ -56,7 +59,7 @@ Write rules as "**Do X** because Y" not "Don't do Z". The Pink Elephant effect: 
 
 **Good:**
 ```markdown
-**Use `${CLAUDE_PLUGIN_ROOT}` for all intra-plugin file references.**
+**Use `$+{CLAUDE_PLUGIN_ROOT}` for all intra-plugin file references.**
 
 Because absolute paths break when the plugin is installed by different users
 or on different machines, portable path variables ensure the plugin works
@@ -243,7 +246,7 @@ Words like "appropriate", "relevant", "as needed", "sufficient", "adequate", "re
 "Don't use X" without explaining what to use instead violates P3 and leaves the reader with no actionable path.
 
 **Fix:** Always pair a prohibition with an alternative:
-- "Don't hardcode paths" → "Use `${CLAUDE_PLUGIN_ROOT}` instead of absolute paths, because..."
+- "Don't hardcode paths" → "Use `$+{CLAUDE_PLUGIN_ROOT}` instead of absolute paths, because..."
 - "Don't use passive voice" → "Use imperative verbs (Use, Run, Check, Return) because they reduce ambiguity"
 
 ---
@@ -284,7 +287,7 @@ If eslint, ruff, clippy, or another static analysis tool already catches a code-
 
 An agent description with no `<example>` blocks has unreliable triggering. Without examples, Claude must infer invocation criteria from the description alone, which degrades with ambiguous wording.
 
-**NLPM penalty:** -15 for zero examples on an agent.
+**NLPM penalty:** -15 for zero examples on an agent; -5 when the description names no situation the agent is not for; -5 when the description exceeds 1,200 characters.
 
 ---
 
@@ -303,7 +306,7 @@ Absolute paths in hooks, scripts, or plugin configs break when:
 - The project is moved
 - CI/CD runs in a container
 
-**Fix:** Use `${CLAUDE_PLUGIN_ROOT}` for paths within a plugin. Use relative paths where the base is well-defined.
+**Fix:** Use `$+{CLAUDE_PLUGIN_ROOT}` for paths within a plugin. Use relative paths where the base is well-defined.
 
 ---
 
