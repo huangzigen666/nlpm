@@ -1,7 +1,7 @@
 {
   "name": "nlpm",
-  "version": "1.4.3",
-  "description": "Natural-Language Programming Manager \u2014 score, check, fix, and test NL artifacts across Claude Code, Codex CLI, and Antigravity. Tier-aware scoring with per-tool overlays.",
+  "version": "1.5.0",
+  "description": "Natural-Language Programming Manager \u2014 score, check, fix, and test NL artifacts across Claude Code, Codex CLI, and Antigravity. Tier-aware scoring with per-tool overlays. Includes an optional local adapter for automatic read-only security, validation, scoring, consistency and NL-TDD spec audits.",
   "author": {
     "name": "xiaolai"
   },
@@ -22,6 +22,7 @@
     "multi-tool"
   ],
   "skills": [
-    "./skills/nlpm"
+    "./skills/nlpm",
+    "./automation/skills"
   ]
 }

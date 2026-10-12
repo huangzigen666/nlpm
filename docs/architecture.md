@@ -58,6 +58,11 @@ Per-component reference moved out of `AGENTS.md` so the memory file stays instru
 
 ## Hooks
 
+- automation/skills/nlpm-auto-audit/ -- automatically selected audit entrypoint; shared across existing local Agent Skill roots by the optional installer.
+- automation/auto_audit.py -- combines deterministic checks and a schema-validated model audit using the existing NLPM scorer/checker/security/tester knowledge. Original source files remain read-only.
+- automation/monitor.py -- native event queue plus filesystem fallback, debounce, content deduplication, background rate limit and explicit blocked states.
+- automation/install.py -- atomic local installation, same-parent snapshots, unique Skill inode check and macOS LaunchAgent definition. Does not launch Hermes or publish the plugin.
+
 - hooks/hooks.json -- PostToolUse command hook on Write|Edit|MultiEdit
 - scripts/check-artifact.sh -- classifies written file, emits advisory only for NL artifacts
 - codex/hooks.json -- empty on purpose. `.codex-plugin/plugin.json` points `hooks` at it because Codex otherwise loads hooks/hooks.json, whose advisory names `/nlpm:score`, a command the Codex plugin does not ship. Its `"commands": []` likewise stops Codex turning commands/*.md into `source-command-*` skills.
