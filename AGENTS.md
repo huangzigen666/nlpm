@@ -14,9 +14,10 @@ Per-file roles, models and skill bindings: see `docs/architecture.md`.
 
 - `commands/*.md` -- `/nlpm:` ls, score, check, fix, trend, test, init, security-scan, vocab-init, vocab-drift, report, spec-sync. `commands/shared/` (discover, classify, append-history) holds partials that are not user-invocable.
 - `agents/*.md` -- scanner and vague-scanner (haiku, mechanical); scorer, checker, tester, security-scanner, vocab-drift-scanner, spec-researcher (sonnet). spec-researcher is read-only and never edits.
-- `skills/nlpm/` -- auto-loaded via agent `skills:` frontmatter: conventions, conventions-claude, conventions-codex, conventions-antigravity, scoring, testing, security. Loaded on demand: rules (R01-R50, single source of truth), patterns, vocabulary (R51 registry, opt-in), and the writing-* and orchestration guides.
+- `skills/nlpm/` -- auto-loaded via agent `skills:` frontmatter: conventions, conventions-claude, conventions-codex, conventions-antigravity, scoring, testing, security. Loaded on demand: rules (R01-R50 core, with opt-in R51 vocabulary), patterns, vocabulary (R51 registry), and the writing-* and orchestration guides.
 - `hooks/hooks.json` -- PostToolUse on Write|Edit|MultiEdit runs `scripts/check-artifact.sh`, which emits an advisory only for NL artifacts.
 - `bin/nlpm-check` -- stdlib-only Python validator, the subset of `/nlpm:check` that runs without Claude Code (pre-commit, CI, pre-publish); templates in `templates/`, author guide in `docs/for-authors.md`.
+- `automation/` -- optional local full-audit adapter, implicit `nlpm-auto-audit` entrypoint, native hook queue, filesystem monitor and atomic installer; scope and acceptance evidence: `docs/local-auto-audit.md`. Reports distinguish model judgment, deterministic checks and runtime evidence; installation never starts Hermes.
 
 When you add, rename or remove a command, agent or skill, update this list and `docs/architecture.md` in the same change, then run `/nlpm:check`.
 
@@ -36,6 +37,7 @@ Test by running `/nlpm:ls` on any project with NL artifacts.
 Run `/nlpm:test` to verify agent specs pass.
 Run `python3 -m unittest tests.test_nlpm_check` to verify the binary.
 Run `python3 -m unittest discover tests` to run the full Python suite.
+Run `python3.12 -m unittest tests.test_auto_audit` for the adapter; preview installation with `python3.12 automation/install.py`, then apply within the user's authorized Agent-configuration scope.
 Run `python3 bin/nlpm-check . --strict` and `claude plugin validate --strict .claude-plugin/plugin.json` before a release.
 
 ## Prerequisites

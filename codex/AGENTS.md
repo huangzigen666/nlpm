@@ -1,37 +1,49 @@
 # nlpm — reference knowledge for Codex CLI
 
-This Codex plugin ships nlpm's **reference-knowledge skills**: the 50 Rules of Natural Language Programming, the 100-point scoring rubric, per-tool conventions (Claude Code / Codex CLI / Antigravity), anti-patterns, the vocabulary discipline framework, and authoring guides for skills, agents, hooks, rules, plugins, and prompts.
+Before editing or reviewing an NL artifact, select the row below for its artifact type and target tool, then load that Skill. Apply the 50 core rules (R01–R50), the opt-in vocabulary rule (R51), the 100-point scoring rubric, and the convention for the target tool. Select a writing guide when creating a Skill, agent, hook, rule, plugin or prompt.
 
-These skills are knowledge, not commands. Load one when you need it — e.g. ask Codex to "score this skill against the nlpm rules" and it pulls in `$nlpm-rules` and `$nlpm-scoring`; ask "what's the Codex skill layout" and it pulls `$nlpm-conventions-codex`.
+For a scoring request, load `$nlpm-rules` and `$nlpm-scoring` and cite each applicable penalty. For Codex layout questions, load `$nlpm-conventions-codex`. Treat those references as knowledge; invoke the local audit entrypoint for an executable audit.
 
 ## What this plugin does NOT include
 
 nlpm's interactive linting commands (`/nlpm:score`, `/nlpm:check`, `/nlpm:fix`, etc.) are **not** ported to Codex. Those commands orchestrate sub-agents via Claude Code's `Task()` dispatch, which has no in-skill equivalent in Codex. They remain a Claude Code plugin.
 
-For deterministic checks without Claude Code (manifest-vs-disk consistency, frontmatter validity, hook event-name case) on **any** tool's artifacts, use the standalone Python validator:
+After editing an NL artifact, use the optional shared `nlpm-auto-audit` Skill to read the queued report for its real project or Skill root. Check security findings, deterministic validation, rubric scores, cross-file consistency and any supplied NL-TDD specs. Preserve `BLOCKED_*` and `STALE_SOURCE` states. Report spec evaluation separately from actual runtime behavior. The adapter does not port the original `/nlpm:*` commands.
+
+## Prerequisites and checks
+
+Use Python 3.11+ for the standalone checker. The optional automatic audit adapter requires Python 3.12+, a YAML parser selected by `NLPM_YAML_PYTHON`, and an authenticated native Codex or Claude CLI for model judgment. Check authentication before treating a blocked model stage as a content finding.
+
+From the NLPM checkout, check manifest references, frontmatter and hook event names, then run the adapter and release-gate tests:
 
 ```bash
-curl -fsSL -o /usr/local/bin/nlpm-check \
-  https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check
-chmod +x /usr/local/bin/nlpm-check
-nlpm-check .
+python3 bin/nlpm-check . --strict
+python3.12 -m unittest tests.test_auto_audit tests.test_gate_pattern_coverage
 ```
 
-## Skills in this collection
+## Where to find each component
 
-| Skill | What it teaches |
+- Read `skills/nlpm/` for the canonical rules, rubric, conventions and writing guides; `codex/skills/` contains their Codex reference mirrors.
+- Read `commands/` and `agents/` to understand the original Claude Code slash-command orchestration; invoke those commands only in Claude Code.
+- Read `automation/skills/nlpm-auto-audit/` for the shared executable entrypoint, `automation/monitor.py` for the background queue, and `automation/auto_audit.py` for the read-only audit stages.
+- Use `automation/install.py` to preview or install local links and hooks; use `bin/nlpm-check` for the standalone deterministic validator.
+- Check `.claude-plugin/` and `.codex-plugin/` for the respective plugin manifests before changing plugin packaging.
+
+## Load the reference for this task
+
+| Skill | When to load it |
 |-------|-----------------|
-| `$nlpm-rules` | The 50 Rules of Natural Language Programming (R01–R51) |
-| `$nlpm-scoring` | 100-point penalty rubric per artifact type |
-| `$nlpm-conventions` | Universal floor: SKILL.md open spec, AGENTS.md, naming |
-| `$nlpm-conventions-claude` | Claude Code overlay: `.claude/` paths, plugin.json, hook events |
-| `$nlpm-conventions-codex` | Codex CLI overlay: `.codex/config.toml`, `.codex-plugin/`, `.agents/skills/` |
-| `$nlpm-conventions-antigravity` | Antigravity + Gemini CLI overlay |
-| `$nlpm-patterns` | NL programming patterns + anti-patterns |
-| `$nlpm-vocabulary` | Controlled-vocabulary discipline (R51) |
-| `$nlpm-testing` | NL-TDD spec format |
-| `$nlpm-security` | Security pattern database for executable artifacts |
-| `$nlpm-orchestration` | Multi-agent workflow patterns (Claude-lineage; informational on Codex) |
-| `$nlpm-writing-skills` … `$nlpm-writing-prompts` | Authoring guides per artifact type |
+| `$nlpm-rules` | Check the 50 core rules (R01–R50) and the opt-in R51 boundary. |
+| `$nlpm-scoring` | Score the target artifact against its 100-point penalty table. |
+| `$nlpm-conventions` | Check SKILL.md frontmatter, AGENTS.md and naming. |
+| `$nlpm-conventions-claude` | Check Claude `.claude/` paths, plugin.json and hook events. |
+| `$nlpm-conventions-codex` | Check `.codex/config.toml`, `.codex-plugin/` and `.agents/skills/`. |
+| `$nlpm-conventions-antigravity` | Check Antigravity and Gemini CLI artifacts. |
+| `$nlpm-patterns` | Detect NL programming anti-patterns before revising a file. |
+| `$nlpm-vocabulary` | Check controlled terms when R51 is enabled. |
+| `$nlpm-testing` | Evaluate supplied NL-TDD specs. |
+| `$nlpm-security` | Review executable artifacts against security patterns. |
+| `$nlpm-orchestration` | Consult Claude-lineage multi-agent patterns when a task dispatches two or more Claude-lineage agents. |
+| `$nlpm-writing-skills` … `$nlpm-writing-prompts` | Choose the guide for the artifact type being written. |
 
 Source and full Claude Code plugin: <https://github.com/xiaolai/nlpm>
